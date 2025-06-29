@@ -22,7 +22,10 @@ import VerifyOtp from "./components/User/VerifyOtp";
 import AdminHome from "./components/Admin/AdminHome";
 import AdminProfile from "./components/Admin/AdminProfile";
 import AdminLogin from "./components/Admin/AdminLogin";
+
 import AdminSignUp from "./components/Admin/AdminSignUp";
+
+
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminCreateCourse from "./components/Admin/AdminCreateCourse";
 import AdminUpdateCourse from "./components/Admin/AdminUpdateCourse";
@@ -84,6 +87,7 @@ function App() {
         {/* ✅ Admin Public Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
+
        
         {/* ✅ Admin Protected Routes */}
         <Route path="/admin" element={<AdminPrivateRoute />}>
