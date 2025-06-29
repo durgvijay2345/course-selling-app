@@ -23,7 +23,6 @@ import AdminHome from "./components/Admin/AdminHome";
 import AdminProfile from "./components/Admin/AdminProfile";
 import AdminLogin from "./components/Admin/AdminLogin";
 
-import AdminSignUp from "./components/Admin/AdminSignUp";
 
 
 import AdminDashboard from "./components/Admin/AdminDashboard";
@@ -86,7 +85,7 @@ function App() {
 
         {/* ✅ Admin Public Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/signup" element={<AdminSignUp />} />
+     
 
        
         {/* ✅ Admin Protected Routes */}
