@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate, Link } from 'react-router-dom';
 import { BACKEND_URL } from '../../frontend-config/api';
 
-function AdminSignup() {
+function AdminSignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -97,4 +97,4 @@ function AdminSignup() {
   );
 }
 
-export default AdminSignup;
+export default AdminSignUp;
