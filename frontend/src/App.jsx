@@ -14,7 +14,8 @@ import Purchases from "./components/User/purchases";
 import Settings from "./components/User/setting";
 import ForgotPassword from "./components/User/forgotPassWord";
 import ResetPassword from "./components/User/ResetPassword";
-import VerifyOtp from "./components/User/verifyOtp";
+import VerifyOtp from "./components/User/VerifyOtp";
+
 
 
 // Admin Components

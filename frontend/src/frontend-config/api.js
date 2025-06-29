@@ -1,1 +1,1 @@
-export const BACKEND_URL="http://localhost:8001/api/v1";
+export const BACKEND_URL="https://courseapp-kffc.onrender.com";
