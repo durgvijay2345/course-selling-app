@@ -34,6 +34,7 @@ import AdminPrivateRoute from "./components/Protected/AdminPrivateRoute";
 function App() {
   const location = useLocation();
  useEffect(() => {
+    console.log("✅ Backend URL:", import.meta.env.VITE_BACKEND_URL);
   const user = JSON.parse(localStorage.getItem("user"));
   const isUserRoute = location.pathname.startsWith("/") || location.pathname.startsWith("/user");
 

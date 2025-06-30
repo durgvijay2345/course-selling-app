@@ -13,7 +13,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 const DB_URI = process.env.MONGO_URI;
 
 // ✅ Middlewares
