@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import { BACKEND_URL } from "../../frontend-config/api";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -87,12 +87,12 @@ const ResetPassword = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             required
           />
-          <span
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute top-[45px] right-4 text-gray-400 hover:text-orange-500 text-lg cursor-pointer transition duration-200"
-           >
-             {showPassword ? <FaEyeSlash /> : <FaEye />}
-             </span>
+         <span
+  onClick={() => setShowPassword(!showPassword)}
+  className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-orange-500 text-lg cursor-pointer transition duration-200"
+>
+  {showPassword ? <FaEyeSlash /> : <FaEye />}
+</span>
         </div>
 
         {/* Confirm Password Field */}
@@ -106,11 +106,12 @@ const ResetPassword = () => {
             required
           />
           <span
-            onClick={() => setShowConfirm(!showConfirm)}
-            className="absolute top-[45px] right-4 text-gray-400 hover:text-orange-500 text-lg cursor-pointer transition duration-200"
-          >
-            {showConfirm ? <FaEyeSlash /> : <FaEye />}
-          </span>
+  onClick={() => setShowConfirm(!showConfirm)}
+  className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-orange-500 text-lg cursor-pointer transition duration-200"
+>
+  {showConfirm ? <FaEyeSlash /> : <FaEye />}
+</span>
+
         </div>
 
         <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
