@@ -4,7 +4,8 @@ import toast from 'react-hot-toast';
 import { useNavigate,Link } from 'react-router-dom';
 import logo from "../../assets/logo.png";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { BACKEND_URL } from '../../frontend-config/api';
+import { BACKEND_URL } from "../../frontend-config/api";
+
 
 
 function AdminCourseList() {

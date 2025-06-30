@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BACKEND_URL } from '../../frontend-config/api';
 
+
 function signup() {
   const [firstName, setFirstName]     = useState("");
   const [lastName, setLastName]       = useState("");

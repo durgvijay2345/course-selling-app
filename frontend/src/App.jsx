@@ -2,6 +2,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { BACKEND_URL } from "./frontend-config/api";
 
 // User Components
 import Home from "./components/User/home";
@@ -14,7 +15,7 @@ import Purchases from "./components/User/purchases";
 import Settings from "./components/User/setting";
 import ForgotPassword from "./components/User/forgotPassWord";
 import ResetPassword from "./components/User/ResetPassword";
-import VerifyOtp from "./components/User/VerifyOtp";
+import VerifyOtp from "./components/User/verifyOtp";
 
 
 
@@ -34,13 +35,13 @@ import AdminPrivateRoute from "./components/Protected/AdminPrivateRoute";
 function App() {
   const location = useLocation();
  useEffect(() => {
-    console.log("✅ Backend URL:", import.meta.env.VITE_BACKEND_URL);
+   
   const user = JSON.parse(localStorage.getItem("user"));
   const isUserRoute = location.pathname.startsWith("/") || location.pathname.startsWith("/user");
 
   // If user is logged in and visits an admin route, auto-logout
   if (user?.token && !isUserRoute) {
-    axios.post("http://localhost:8001/api/v1/user/logout", {}, {
+    axios.post(`${BACKEND_URL}/user/logout`, {}, {
       withCredentials: true,
     }).then(() => {
       localStorage.removeItem("user");
@@ -57,7 +58,7 @@ function App() {
 
     // 🛡️ If logged-in admin visits a non-admin route, auto logout
     if (admin?.token && !isAdminRoute) {
-      axios.post("http://localhost:8001/api/v1/admin/logout", {}, {
+      axios.post(`${BACKEND_URL}/admin/logout`, {}, {
         withCredentials: true,
       }).then(() => {
         localStorage.removeItem("admin");

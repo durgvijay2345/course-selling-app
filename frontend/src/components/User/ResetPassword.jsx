@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { BACKEND_URL } from "../../frontend-config/api";
+
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");

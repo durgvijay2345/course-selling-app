@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
 import { BACKEND_URL } from "../../frontend-config/api";
 
+
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
@@ -55,7 +56,7 @@ function Courses() {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/user/logout`,
+       `${BACKEND_URL}/user/logout`,
        {},
         { withCredentials: true }
       );

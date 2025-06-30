@@ -9,6 +9,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../frontend-config/api";
 
+
 function purchases() {
   const [purchases, setPurchase] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

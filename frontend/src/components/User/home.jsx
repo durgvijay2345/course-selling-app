@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import toast from 'react-hot-toast';
 import { BACKEND_URL } from '../../frontend-config/api';
 
+
 function home() {
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);

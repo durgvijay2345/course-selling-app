@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "../../frontend-config/api";
 
+
 const forgotPassWord = () => {
   const [email, setEmail] = useState("");
 
