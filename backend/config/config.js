@@ -12,7 +12,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const config = {
   MONGO_URI: process.env.MONGO_URI,
-  PORT: process.env.PORT || 8001,
+  PORT: process.env.PORT || 3001,
   JWT_USER_PASSWORD: process.env.JWT_USER_PASSWORD,
   JWT_ADMIN_PASSWORD: process.env.JWT_ADMIN_PASSWORD,
   CLOUD_NAME: process.env.CLOUD_NAME,
