@@ -21,17 +21,19 @@ const DB_URI = process.env.MONGO_URI;
 app.use(cookieParser());
 app.use(express.json());
 
+const allowedOrigins = [
+  "https://course-selling-app-sage.vercel.app", // your frontend
+  "http://localhost:5173" // local dev
+];
+
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
- // ✅ as array
- 
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 
 
 
