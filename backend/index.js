@@ -39,6 +39,10 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/order", orderRoute);  // ✅ Fixed missing slash
 
+ app.get("/", (req, res) => {
+  res.send("API is live 🚀");
+});
+
 // ✅ Start server only after DB connection
 const startServer = async () => {
   try {
