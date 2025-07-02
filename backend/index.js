@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import config from "./config/config.js";
 
 import cookieParser from "cookie-parser";
 import courseRoute from "./routes/course.route.js";
@@ -13,7 +14,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT|| 3000;
+
 const DB_URI = process.env.MONGO_URI;
 
 // ✅ Middlewares
@@ -51,12 +52,12 @@ const startServer = async () => {
     await mongoose.connect(DB_URI);
     console.log("✅ MongoDB connected");
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    app.listen(config.PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${config.PORT}`);
     });
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error);
-    process.exit(1); // Exit process if DB fails
+    process.exit(1);
   }
 };
 
