@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../frontend-config/api";
 
-const VerifyOtp = () => {
+const verifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(120); // 2 minutes
   const [canResend, setCanResend] = useState(false);
@@ -96,4 +96,4 @@ const VerifyOtp = () => {
 };
 
 
-export default VerifyOtp;
+export default verifyOtp;
