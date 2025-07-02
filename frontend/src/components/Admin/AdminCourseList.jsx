@@ -73,46 +73,45 @@ const cancelDelete = () => {
   );
 
  return (
-  <div className="h-[100vh] bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-3xl shadow-xl border border-gray-700 text-white flex overflow-hidden">
-
-    {/* ✅ Left Sidebar */}
-    <div className="w-64 flex-shrink-0 p-6 bg-gray-900 text-white flex flex-col justify-between">
+  <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white flex flex-col md:flex-row">
+    {/* ✅ Sidebar */}
+    <div className="w-full md:w-64 flex-shrink-0 p-4 md:p-6 bg-gray-900 text-white flex flex-col justify-between">
       {/* Top Part */}
       <div>
-        <img src={logo} alt="Logo" className="rounded-full h-20 w-20 mb-4" />
-        <h2 className="text-3xl font-extrabold text-blue-600 drop-shadow mb-6">Our Courses</h2>
+        <img src={logo} alt="Logo" className="rounded-full h-16 w-16 md:h-20 md:w-20 mb-4 mx-auto md:mx-0" />
+        <h2 className="text-2xl md:text-3xl font-extrabold text-blue-600 drop-shadow mb-4 text-center md:text-left">Our Courses</h2>
         <Link
           to="/admin/dashboard"
-          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition block mb-6"
+          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition block text-center md:text-left"
         >
           Back to Dashboard
         </Link>
       </div>
 
       {/* Bottom Search Bar */}
-     <div className="mt-6">
-  <div className="relative">
-    <input
-      type="text"
-      placeholder="Search by title..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="w-full px-4 py-2 pr-10 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-    <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">🔍</span>
-  </div>
-</div>
+      <div className="mt-6">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by title..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 pr-10 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">🔍</span>
+        </div>
+      </div>
     </div>
 
-    {/* ✅ Scrollable Right Content */}
-    <div className="flex-1 overflow-y-auto p-6">
+    {/* ✅ Main Content */}
+    <div className="flex-1 overflow-y-auto p-4 md:p-6">
       {/* 🔁 Course Grid */}
       {loading ? (
         <p>Loading...</p>
       ) : filteredCourses.length === 0 ? (
         <p>No matching courses found</p>
       ) : (
-        <div className="grid gap-9 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
             <div key={course._id} className="border rounded-lg shadow p-4 bg-gray-800 text-white flex flex-col h-full">
               {course.image?.url ? (
@@ -126,29 +125,28 @@ const cancelDelete = () => {
                   <span className="text-gray-400">No Image</span>
                 </div>
               )}
-              <h3 className="text-xl font-semibold">{course.title}</h3>
+              <h3 className="text-lg font-semibold">{course.title}</h3>
               <p className="text-gray-300 mt-1 flex-grow">{course.description}</p>
               <p className="text-green-400 font-bold mt-2">₹{course.price}</p>
 
               {String(course.creatorId) === String(currentAdminId) && (
                 <div className="flex space-x-3 mt-4">
-  <button
-    onClick={() => handleEdit(course._id)}
-    className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
-  >
-    <FaEdit className="text-lg" />
-    Edit
-  </button>
+                  <button
+                    onClick={() => handleEdit(course._id)}
+                    className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+                  >
+                    <FaEdit className="text-lg" />
+                    Edit
+                  </button>
 
-  <button
-    onClick={() => confirmDelete(course._id)}
-    className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
-  >
-    <FaTrashAlt className="text-lg" />
-    Delete
-  </button>
-</div>
-
+                  <button
+                    onClick={() => confirmDelete(course._id)}
+                    className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+                  >
+                    <FaTrashAlt className="text-lg" />
+                    Delete
+                  </button>
+                </div>
               )}
             </div>
           ))}
@@ -180,6 +178,7 @@ const cancelDelete = () => {
     </div>
   </div>
 );
+
 
 
 }
