@@ -5,17 +5,20 @@ import Purchase from "../models/purchase.model.js";
 const router = express.Router();
 
 
-router.get("/check/:courseId", userMiddleware, async (req, res) => {
-  const { courseId } = req.params;
+// GET /user/purchases
+router.get("/all",userMiddleware, async (req, res) => {
   const userId = req.userId;
 
   try {
-    const hasPurchased = await Purchase.findOne({ userId, courseId });
-    res.status(200).json({ purchased: !!hasPurchased });
+    const purchases = await Purchase.find({ userId }).select("courseId");
+    const purchasedCourses = purchases.map(p => p.courseId.toString());
+
+    res.status(200).json({ purchasedCourses });
   } catch (error) {
-    console.error("Purchase check error:", error);
-    res.status(500).json({ errors: "Failed to check purchase" });
+    console.error("Fetch purchases error:", error);
+    res.status(500).json({ errors: "Failed to fetch purchases" });
   }
 });
+
 
 export default router;
