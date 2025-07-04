@@ -1,14 +1,21 @@
 import { Course } from "../models/course.model.js";
 import cloudinary from "../config/cloudinary.js";
+
 import streamifier from "streamifier";
 import { Purchase } from "../models/purchase.model.js";
 import Order from "../models/order.model.js";
 import Razorpay from "razorpay";
 
+
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+  throw new Error("Razorpay keys are missing in environment variables");
+}
+
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_dummy123",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || "rzp_test_dummySecret123",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+
 
 // Create course
 export const createCourse = async (req, res) => {
@@ -141,6 +148,8 @@ export const courseDetails = async (req, res) => {
 
 // Buy course (create Razorpay order)
 export const buyCourses = async (req, res) => {
+  console.log("🎯 BUY route hit: real Razorpay order");
+
   const userId = req.userId;
   const { courseId } = req.params;
 
@@ -155,29 +164,8 @@ export const buyCourses = async (req, res) => {
 
     const amount = course.price;
 
-    if (process.env.RAZORPAY_KEY_ID?.includes("dummy")) {
-      const fakeOrderId = `dummy_order_${Date.now()}`;
-      await Order.create({
-        courseId,
-        userId,
-        amount,
-        currency: "INR",
-        razorpayOrderId: fakeOrderId,
-        status: "created"
-      });
-
-      return res.status(200).json({
-        message: "Simulated order created",
-        orderId: fakeOrderId,
-        amount: amount * 100,
-        currency: "INR",
-        key: "rzp_test_dummy123",
-        course
-      });
-    }
-
     const razorpayOrder = await razorpay.orders.create({
-      amount: amount * 100,
+      amount: amount * 100, // in paise
       currency: "INR",
       receipt: `receipt_order_${Date.now()}`
     });
@@ -192,13 +180,15 @@ export const buyCourses = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Order created",
-      orderId: razorpayOrder.id,
+      orderId: razorpayOrder.id,             // ✅ real Razorpay order ID
       amount: razorpayOrder.amount,
       currency: razorpayOrder.currency,
-      key: process.env.RAZORPAY_KEY_ID,
-      course
+      key: process.env.RAZORPAY_KEY_ID,     // ✅ use real Razorpay key from .env
+      course                                 // ✅ also send course
     });
+    console.log("🛠️ Razorpay Key:", process.env.RAZORPAY_KEY_ID);
+
+
   } catch (error) {
     console.error("Buy course error:", error);
     res.status(500).json({ errors: "Error buying course" });
