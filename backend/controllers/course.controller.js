@@ -132,19 +132,7 @@ export const getCourses = async (req, res) => {
 };
 
 // Get single course
-export const courseDetails = async (req, res) => {
-  const { courseId } = req.params;
-  try {
-    const course = await Course.findById(courseId).populate("reviews.user", "firstName lastName");
 
-    if (!course) return res.status(404).json({ error: "Course not found" });
-
-    res.status(200).json({ course });
-  } catch (error) {
-    console.error("Course details error:", error);
-    res.status(500).json({ errors: "Error fetching course details" });
-  }
-};
 
 // Buy course (create Razorpay order)
 export const buyCourses = async (req, res) => {
@@ -212,45 +200,21 @@ export const deleteCourse = async (req, res) => {
     res.status(500).json({ errors: "Error deleting course" });
   }
 };
-
-
-
-export const rateCourse = async (req, res) => {
-  const userId = req.userId;
+ export const courseDetails = async (req, res) => {
   const { courseId } = req.params;
-  const { rating, comment } = req.body;
-
   try {
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({ errors: "Course not found" });
-    }
+    const course = await Course.findById(courseId)
+      .populate("reviews.user", "firstName lastName")
+      .lean();
 
-    // Check if user already reviewed
-    const existingReview = course.reviews.find(
-      (r) => r.user.toString() === userId.toString()
-    );
+    if (!course) return res.status(404).json({ error: "Course not found" });
 
-    if (existingReview) {
-      existingReview.rating = rating;
-      existingReview.comment = comment;
-    } else {
-      course.reviews.push({ user: userId, rating, comment });
-    }
-
-    // Update average rating
-    const totalRating = course.reviews.reduce((acc, review) => acc + review.rating, 0);
-    course.averageRating = totalRating / course.reviews.length;
-
-    await course.save();
-
-    res.status(200).json({ message: "Review submitted", averageRating: course.averageRating });
+    res.status(200).json({ course });
   } catch (error) {
-    console.error("Rate course error:", error);
-    res.status(500).json({ errors: "Error submitting review" });
+    console.error("Course details error:", error);
+    res.status(500).json({ errors: "Error fetching course details" });
   }
 };
-  
 
 export const addReview = async (req, res) => {
   const userId = req.userId;
