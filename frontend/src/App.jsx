@@ -17,6 +17,12 @@ import ForgotPassword from "./components/User/forgotPassWord";
 import ResetPassword from "./components/User/ResetPassword";
 import VerifyOtp from "./components/User/verifyOtp";
 
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import ContactUs from "./pages/ContactUs";
+
 
 
 
@@ -35,26 +41,29 @@ import AdminPrivateRoute from "./components/Protected/AdminPrivateRoute";
 
 function App() {
   const location = useLocation();
-  useEffect(() => {
-  console.log("🔥 BACKEND_URL:", BACKEND_URL);
-}, []);
- useEffect(() => {
-   
-  const user = JSON.parse(localStorage.getItem("user"));
-  const isUserRoute = location.pathname.startsWith("/") || location.pathname.startsWith("/user");
+  const navigate = useNavigate();
 
-  // If user is logged in and visits an admin route, auto-logout
-  if (user?.token && !isUserRoute) {
-    axios.post(`${BACKEND_URL}/user/logout`, {}, {
-      withCredentials: true,
-    }).then(() => {
-      localStorage.removeItem("user");
-      console.log("✅ user auto-logged out (visited admin route)");
-    }).catch((err) => {
-      console.error("⚠️ Auto logout failed", err);
-    });
-  }
-}, [location.pathname]);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+     const userAllowedRoutes = [
+    /^\/$/, /^\/courses$/, /^\/buy\/[^/]+$/, /^\/user(\/.*)?$/,
+    /^\/login$/, /^\/signup$/, /^\/forgot-password$/, /^\/reset-password$/, /^\/verify-otp$/
+  ];
+
+  const isUserRoute = userAllowedRoutes.some((regex) => regex.test(location.pathname));
+
+    if (user?.token && !isUserRoute) {
+      axios.post(`${BACKEND_URL}/user/logout`, {}, {
+        withCredentials: true,
+      }).then(() => {
+        localStorage.removeItem("user");
+        console.log("✅ user auto-logged out (visited admin route)");
+        navigate("/login"); // 🔁 Redirect user to login
+      }).catch((err) => {
+        console.error("⚠️ Auto logout failed", err);
+      });
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const admin = JSON.parse(localStorage.getItem("admin"));
@@ -88,6 +97,13 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
+
+
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/contact-us" element={<ContactUs />} />
 
         {/* ✅ Admin Public Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />

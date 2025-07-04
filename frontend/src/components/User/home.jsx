@@ -52,19 +52,49 @@ function home() {
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    autoplay: true,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
-      { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+const settings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 4,
+  autoplay: true,
+  swipe: true,
+  swipeToSlide: true,
+  draggable: true,
+  pauseOnHover: true,
+  accessibility: true,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        swipe: true,
+        draggable: true,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        swipe: true,
+        draggable: true,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        swipe: true,
+        draggable: false,
+      },
+    },
+  ],
+};
+
 
   return (
   <div className='bg-gradient-to-r from-black to-blue-950 text-white min-h-screen'>
@@ -150,12 +180,29 @@ function home() {
                   alt={course.title}
                   className="h-40 w-full object-contain bg-white"
                 />
-                <div className="p-4 text-center">
-                  <h2 className="text-lg font-semibold mb-3">{course.title}</h2>
-                  <Link to={`/buy/${course._id}`} className="bg-orange-500 text-white px-4 py-2 rounded-xl hover:bg-white hover:text-green-600 transition">
-                    Enroll Now
-                  </Link>
-                </div>
+        <div
+  className="p-4 text-center"
+  style={{
+    pointerEvents: 'auto',
+    position: 'relative',
+    zIndex: 50,
+  }}
+>
+  <h2 className="text-lg font-semibold mb-3">{course.title}</h2>
+  <Link
+  to={`/buy/${course._id}`}
+  className="bg-orange-500 text-white px-4 py-2 rounded-xl hover:bg-white hover:text-green-600 transition z-50 relative"
+  style={{
+    pointerEvents: 'auto',
+    touchAction: 'manipulation',
+    zIndex: 100,
+    position: 'relative',
+  }}
+>
+  Enroll Now
+</Link>
+</div>
+
               </div>
             </div>
           ))}
