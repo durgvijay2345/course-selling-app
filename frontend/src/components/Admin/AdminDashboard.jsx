@@ -43,7 +43,7 @@ function AdminDashboard() {
 
 
       {/* Sidebar */}
-      <div className="w-full md:w-64 bg-gray-100 p-5 flex flex-col items-center relative">
+      <div className="w-full md:w-64 bg-gray-300 p-5 flex flex-col items-center relative">
         {/* Avatar & Profile Toggle */}
         <button onClick={() => setShowProfile(!showProfile)} className="mb-4">
           {admin?.avatar ? (
@@ -124,7 +124,7 @@ function AdminDashboard() {
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-4 py-10">
-        <div className="bg-white rounded-xl shadow-xl p-8 text-center max-w-xl w-full">
+        <div className="bg-gray-400 rounded-xl shadow-xl p-8 text-center max-w-xl w-full">
           <h1 className="text-3xl md:text-4xl font-bold text-blue-700 mb-4">
             Welcome Back, Admin!
           </h1>

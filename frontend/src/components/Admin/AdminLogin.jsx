@@ -54,8 +54,9 @@ function AdminLogin() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 px-4">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8">
-        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
+     <div className="w-full max-w-md bg-gradient-to-br from-white via-indigo-100 to-indigo-200 shadow-xl rounded-xl p-8">
+
+        <h2 className="text-3xl font-bold text-center text-red-700 mb-6">
           Admin Login
         </h2>
 
