@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useNavigate,Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { HiMenu, HiX } from "react-icons/hi";
 import { BACKEND_URL } from "../../frontend-config/api";
-
-
 
 function AdminCourseList() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null); // course ID to confirm
-  
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
-
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin?.token;
-  const currentAdminId = admin?.admin?._id || admin?.user?._id; // handles both formats
+  const currentAdminId = admin?.admin?._id || admin?.user?._id;
 
   useEffect(() => {
     if (!token) {
@@ -27,7 +25,6 @@ function AdminCourseList() {
       navigate("/admin/login");
       return;
     }
-
     fetchCourses();
   }, []);
 
@@ -44,76 +41,91 @@ function AdminCourseList() {
     }
   };
 
-  const confirmDelete = (courseId) => {
-  setConfirmDeleteId(courseId); // opens confirmation modal
-};
-
-const handleConfirmDelete = async () => {
-  try {
-    await axios.delete(`${BACKEND_URL}/course/delete/${confirmDeleteId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    toast.success("Course deleted");
-    fetchCourses();
-    setConfirmDeleteId(null); // close modal
-  } catch (err) {
-    toast.error("Delete failed");
-  }
-};
-
-const cancelDelete = () => {
-  setConfirmDeleteId(null); // close modal
-};
- const handleEdit = (courseId) => {
+  const handleEdit = (courseId) => {
     navigate(`/admin/update/${courseId}`);
   };
 
-  const filteredCourses = courses.filter(course =>
+  const confirmDelete = (courseId) => {
+    setConfirmDeleteId(courseId);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`${BACKEND_URL}/course/delete/${confirmDeleteId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success("Course deleted");
+      fetchCourses();
+      setConfirmDeleteId(null);
+    } catch (err) {
+      toast.error("Delete failed");
+    }
+  };
+
+  const cancelDelete = () => setConfirmDeleteId(null);
+
+  const filteredCourses = courses.filter((course) =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
- return (
-  <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white flex flex-col md:flex-row">
-    {/* ✅ Sidebar */}
-    <div className="w-full md:w-64 flex-shrink-0 p-4 md:p-6 bg-gray-900 text-white flex flex-col justify-between">
-      {/* Top Part */}
-      <div>
-        <img src={logo} alt="Logo" className="rounded-full h-16 w-16 md:h-20 md:w-20 mb-4 mx-auto md:mx-0" />
-        <h2 className="text-2xl md:text-3xl font-extrabold text-blue-600 drop-shadow mb-4 text-center md:text-left">Our Courses</h2>
+  return (
+  <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white">
+    {/* 🔘 Mobile Toggle */}
+    <button
+      className="md:hidden fixed top-4 left-4 z-50 bg-gray-800 text-white p-2 rounded-full"
+      onClick={() => setSidebarOpen(!sidebarOpen)}
+    >
+      {sidebarOpen ? <HiX className="text-xl" /> : <HiMenu className="text-xl" />}
+    </button>
+
+    {/* ✅ Sidebar - Fixed on Desktop, Slide from Top on Mobile */}
+    <div
+      className={`fixed md:top-0 top-16 md:left-0 left-0 z-40 w-full md:w-64 bg-gray-900 p-5 transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? "translate-y-0" : "-translate-y-full"
+      } md:translate-y-0 h-auto md:h-screen`}
+    >
+      <div className="flex flex-col justify-start items-center md:items-start gap-4">
+        <img src={logo} alt="Logo" className="rounded-full h-16 w-16" />
+        <h2 className="text-2xl font-extrabold text-blue-600 text-center md:text-left">
+          Our Courses
+        </h2>
         <Link
           to="/admin/dashboard"
-          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition block text-center md:text-left"
+          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition w-full text-center"
         >
           Back to Dashboard
         </Link>
       </div>
+    </div>
 
-      {/* Bottom Search Bar */}
-      <div className="mt-6">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search by title..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 pr-10 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">🔍</span>
-        </div>
+    {/* ✅ Search Bar - Fixed Top Right on Desktop, Full Width Below Sidebar on Mobile */}
+    <div className="fixed top-0 left-0 md:left-64 w-full md:w-[calc(100%-16rem)] z-30 bg-gray-900 p-4 flex flex-col md:flex-row justify-between items-center gap-3 border-b border-gray-700">
+      <h1 className="text-2xl font-bold text-blue-500">All Courses</h1>
+      <div className="relative w-full md:w-80">
+        <input
+          type="text"
+          placeholder="Search by title..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 pr-10 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">🔍</span>
       </div>
     </div>
 
-    {/* ✅ Main Content */}
-    <div className="flex-1 overflow-y-auto p-4 md:p-6">
-      {/* 🔁 Course Grid */}
+    {/* ✅ Main Scrollable Content */}
+    <div className="pt-[140px] md:pt-20 md:pl-64 p-4">
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-center text-gray-400">Loading...</p>
       ) : filteredCourses.length === 0 ? (
-        <p>No matching courses found</p>
+        <p className="text-center text-gray-400">No matching courses found</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
-            <div key={course._id} className="border rounded-lg shadow p-4 bg-gray-800 text-white flex flex-col h-full">
+            <div
+              key={course._id}
+              className="border rounded-lg shadow p-4 bg-gray-800 text-white flex flex-col h-full"
+            >
               {course.image?.url ? (
                 <img
                   src={course.image.url}
@@ -153,11 +165,13 @@ const cancelDelete = () => {
         </div>
       )}
 
-      {/* 🗑️ Confirm Delete Popup */}
+      {/* Confirm Delete Modal */}
       {confirmDeleteId && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-            <h2 className="text-xl font-semibold mb-4 text-black">Are you sure you want to delete this course?</h2>
+            <h2 className="text-xl font-semibold mb-4 text-black">
+              Are you sure you want to delete this course?
+            </h2>
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleConfirmDelete}
@@ -179,9 +193,6 @@ const cancelDelete = () => {
   </div>
 );
 
-
-
 }
 
 export default AdminCourseList;
-   

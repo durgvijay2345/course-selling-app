@@ -51,10 +51,11 @@ function AdminCreateCourse() {
     }
   };
 
-  return (
-   <div className="max-w-2xl mx-auto mt-12 px-8 py-10 bg-gradient-to-br from-white via-blue-50 to-blue-100 shadow-xl rounded-3xl border border-blue-100">
+ return (
+  <div className="min-h-screen bg-gradient-to-b from-gray-500 to-gray-300 py-12 px-4">
+    <div className="max-w-3xl mx-auto px-8 py-10 bg-gradient-to-br from-green-100 via-blue-100 to-blue-100 shadow-xl rounded-3xl border border-blue-100">
       <h2 className="text-2xl font-bold mb-6 text-center text-indigo-700">
-        📘 Create New Course
+        ➕ Create New Course
       </h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
@@ -116,14 +117,16 @@ function AdminCreateCourse() {
 
         <button
           type="submit"
-         className="flex items-center gap-2 bg-red-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
-          >
-            <FaPlus className="text-lg" />
-            Create Course
-          </button>
+          className="flex items-center gap-2 bg-red-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+        >
+          <FaPlus className="text-lg" />
+          Create Course
+        </button>
       </form>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default AdminCreateCourse;
