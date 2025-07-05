@@ -126,7 +126,7 @@ export const updateUserProfile = async (req, res) => {
     let avatarUrl;
 
     if (req.file) {
-      // 🟠 Cloudinary upload using stream
+      //  Cloudinary upload using stream
       const bufferToStream = (buffer) => {
         import("stream").then(({ Readable }) => {
           const stream = new Readable();

@@ -232,13 +232,16 @@ export const addReview = async (req, res) => {
     if (!course) return res.status(404).json({ errors: "Course not found" });
 
     // ✅ Check if user already reviewed
-    const alreadyReviewed = course.reviews.find((r) => r.user.toString() === userId);
-    if (alreadyReviewed) {
-      return res.status(400).json({ errors: "You already submitted a review" });
-    }
+    const existingReview = course.reviews.find((r) => r.user.toString() === userId);
 
-    // ✅ Add new review
-    course.reviews.push({ user: userId, rating, comment });
+    if (existingReview) {
+      // ✅ Update existing review
+      existingReview.rating = rating;
+      existingReview.comment = comment;
+    } else {
+      // ✅ Add new review
+      course.reviews.push({ user: userId, rating, comment });
+    }
 
     // ✅ Update average rating
     const totalRating = course.reviews.reduce((sum, r) => sum + r.rating, 0);
@@ -246,9 +249,29 @@ export const addReview = async (req, res) => {
 
     await course.save();
 
-    res.status(200).json({ message: "Review added" });
+    res.status(200).json({ message: existingReview ? "Review updated" : "Review added" });
   } catch (error) {
     console.error("Add Review Error:", error);
+    res.status(500).json({ errors: "Server error" });
+  }
+};
+
+export const getCourseReviews = async (req, res) => {
+  const { courseId } = req.params;
+
+  try {
+    const course = await Course.findById(courseId).populate({
+      path: "reviews.user",
+      select: "firstName lastName email avatar", // You can choose what to send
+    });
+
+    if (!course) {
+      return res.status(404).json({ errors: "Course not found" });
+    }
+
+    res.status(200).json({ reviews: course.reviews });
+  } catch (error) {
+    console.error("Error fetching course reviews:", error);
     res.status(500).json({ errors: "Server error" });
   }
 };
