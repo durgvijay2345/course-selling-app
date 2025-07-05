@@ -270,12 +270,21 @@ function Home() {
               <h1 className="text-xl text-orange-500 font-bold">CourseHaven</h1>
             </div>
             <p>Follow us</p>
-            <div className="flex justify-center md:justify-start gap-4 mt-2">
-              <a href="#"><FaFacebook /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaTwitter /></a>
-              <a href="#"><FaGithub /></a>
-            </div>
+           <div className="flex justify-center md:justify-start gap-6 mt-4">
+  <a href="https://facebook.com/share/1JoJVnasWk" target="_blank" rel="noopener noreferrer">
+    <FaFacebook className="text-2xl text-blue-500 hover:text-blue-700 transition duration-300" />
+  </a>
+  <a href="https://instagram.com/tiwaridurgvijay" target="_blank" rel="noopener noreferrer">
+    <FaInstagram className="text-2xl text-pink-500 hover:text-pink-700 transition duration-300" />
+  </a>
+  <a href="https://x.com/tiwari_shu9154" target="_blank" rel="noopener noreferrer">
+    <FaTwitter className="text-2xl text-blue-600 hover:text-blue-800 transition duration-300" />
+  </a>
+  <a href="https://github.com/durgvijay2345" target="_blank" rel="noopener noreferrer">
+    <FaGithub className="text-2xl text-gray-700 hover:text-black transition duration-300" />
+  </a>
+</div>
+
           </div>
           <div>
             <h3 className="font-semibold mb-1">Connect</h3>
