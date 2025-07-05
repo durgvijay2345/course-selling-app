@@ -8,13 +8,12 @@ import courseRoute from "./routes/course.route.js";
 import userRoute from "./routes/user.route.js";
 import adminRoute from "./routes/admin.route.js";
 import orderRoute from "./routes/order.route.js";
+import purchaseRoute from "./routes/purchase.route.js";
 import cors from "cors";
 
 // Load environment variables
 dotenv.config();
-
 const app = express();
-
 const DB_URI = process.env.MONGO_URI;
 
 // ✅ Middlewares
@@ -34,19 +33,13 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-
-
-
 // ✅ Routes
 app.use("/api/v1/course", courseRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
-app.use("/api/v1/order", orderRoute);  // ✅ Fixed missing slash
-
- app.get("/", (req, res) => {
-  res.send("API is live 🚀");
-});
+app.use("/api/v1/order", orderRoute);  
+app.use("/api/v1/purchase", purchaseRoute);
+ 
 
 // ✅ Start server only after DB connection
 const startServer = async () => {
@@ -55,10 +48,10 @@ const startServer = async () => {
     console.log("✅ MongoDB connected");
 
     app.listen(config.PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${config.PORT}`);
+      console.log(`Server running on http://localhost:${config.PORT}`);
     });
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
+    console.error("MongoDB connection failed:", error);
     process.exit(1);
   }
 };

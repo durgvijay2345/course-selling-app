@@ -43,27 +43,7 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-     const userAllowedRoutes = [
-    /^\/$/, /^\/courses$/, /^\/buy\/[^/]+$/, /^\/user(\/.*)?$/,
-    /^\/login$/, /^\/signup$/, /^\/forgot-password$/, /^\/reset-password$/, /^\/verify-otp$/
-  ];
-
-  const isUserRoute = userAllowedRoutes.some((regex) => regex.test(location.pathname));
-
-    if (user?.token && !isUserRoute) {
-      axios.post(`${BACKEND_URL}/user/logout`, {}, {
-        withCredentials: true,
-      }).then(() => {
-        localStorage.removeItem("user");
-        console.log("✅ user auto-logged out (visited admin route)");
-        navigate("/login"); // 🔁 Redirect user to login
-      }).catch((err) => {
-        console.error("⚠️ Auto logout failed", err);
-      });
-    }
-  }, [location.pathname]);
+ 
 
   useEffect(() => {
     const admin = JSON.parse(localStorage.getItem("admin"));
