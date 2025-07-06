@@ -91,7 +91,7 @@ function AdminCourseList() {
         </h2>
         <Link
           to="/admin/dashboard"
-          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition w-full text-center"
+          className="bg-red-600 px-4 py-2 rounded hover:bg-green-700 transition w-full text-center cursor-pointer"
         >
           Back to Dashboard
         </Link>
@@ -145,18 +145,18 @@ function AdminCourseList() {
                 <div className="flex space-x-3 mt-4">
                   <button
                     onClick={() => handleEdit(course._id)}
-                    className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+                    className="flex items-center gap-2 bg-indigo-400 hover:bg-indigo-500 text-black hover:text-amber-200font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md cursor-pointer"
                   >
                     <FaEdit className="text-lg" />
-                    Edit
+                    Update Course
                   </button>
 
                   <button
                     onClick={() => confirmDelete(course._id)}
-                    className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+                    className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md cursor-pointer"
                   >
                     <FaTrashAlt className="text-lg" />
-                    Delete
+                    Delete Course
                   </button>
                 </div>
               )}
@@ -175,13 +175,13 @@ function AdminCourseList() {
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleConfirmDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
               >
                 Yes
               </button>
               <button
                 onClick={cancelDelete}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 cursor-pointer"
               >
                 No
               </button>

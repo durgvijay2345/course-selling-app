@@ -45,7 +45,7 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-full md:w-64 bg-gray-300 p-5 flex flex-col items-center relative">
         {/* Avatar & Profile Toggle */}
-        <button onClick={() => setShowProfile(!showProfile)} className="mb-4">
+        <button onClick={() => setShowProfile(!showProfile)} className="mb-4 cursor-pointer">
           {admin?.avatar ? (
             <img
               src={admin.avatar}
@@ -78,7 +78,7 @@ function AdminDashboard() {
 
               <Link
                 to="/admin/profile"
-                className="mt-4 inline-block text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                className="mt-4 inline-block text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition cursor-pointer"
               >
                 Edit Profile
               </Link>
@@ -94,28 +94,28 @@ function AdminDashboard() {
 
         <nav className="flex flex-col space-y-4 w-full">
           <Link to="/admin/courses">
-            <button className="w-full bg-green-700 hover:bg-green-600 text-white py-2 rounded">
+            <button className="w-full bg-green-700 hover:bg-green-600 text-white py-2 rounded cursor-pointer">
               Our Courses
             </button>
           </Link>
           <Link to="/admin/create">
-            <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded">
+            <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded cursor-pointer">
               Create Course
             </button>
           </Link>
           <Link to="/admin">
-            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded cursor-pointer">
               Home
             </button>
           </Link>
           <Link to="/admin/profile">
-            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded">
+            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded cursor-pointer">
               Manage Admin
             </button>
           </Link>
           <button
             onClick={handleLogout}
-            className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded cursor-pointer"
           >
             Logout
           </button>

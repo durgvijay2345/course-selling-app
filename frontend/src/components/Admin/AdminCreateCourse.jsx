@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { FaPlus } from "react-icons/fa";
+import { useNavigate} from "react-router-dom";
+import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { BACKEND_URL } from "../../frontend-config/api";
 
 function AdminCreateCourse() {
@@ -53,7 +53,17 @@ function AdminCreateCourse() {
 
  return (
   <div className="min-h-screen bg-gradient-to-b from-gray-500 to-gray-300 py-12 px-4">
+    
     <div className="max-w-3xl mx-auto px-8 py-10 bg-gradient-to-br from-green-100 via-blue-100 to-blue-100 shadow-xl rounded-3xl border border-blue-100">
+      <div className="max-w-3xl mx-auto mb-4 px-4">
+  <button
+    onClick={() => navigate("/admin/dashboard")}
+    className="flex items-center gap-2 text-orange-700 hover:text-indigo-900 font-medium transition cursor-pointer"
+  >
+    <FaArrowLeft />
+    <span>Back to Dashboard</span>
+  </button>
+</div>
       <h2 className="text-2xl font-bold mb-6 text-center text-indigo-700">
         ➕ Create New Course
       </h2>
@@ -117,7 +127,7 @@ function AdminCreateCourse() {
 
         <button
           type="submit"
-          className="flex items-center gap-2 bg-red-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
+          className="flex items-center gap-2 bg-red-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md cursor-pointer"
         >
           <FaPlus className="text-lg" />
           Create Course

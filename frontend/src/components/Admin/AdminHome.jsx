@@ -49,7 +49,7 @@ function AdminHome() {
           {!admin ? (
             <Link
               to="/admin/login"
-              className="bg-orange-500 px-4 py-2 rounded hover:bg-orange-600 text-sm md:text-base"
+              className="bg-orange-500 px-4 py-2 rounded hover:bg-orange-600 text-sm md:text-base cursor-pointer"
             >
               Admin Login
             </Link>
@@ -57,18 +57,18 @@ function AdminHome() {
             <>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 text-sm md:text-base"
+                className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 text-sm md:text-base cursor-pointer"
               >
                 Logout
               </button>
               <Link
                 to="/admin/dashboard"
-                className="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-sm md:text-base"
+                className="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-sm md:text-base cursor-pointer"
               >
                 Go to Dashboard
               </Link>
 
-              <button onClick={() => setShowProfile(!showProfile)}>
+              <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
                 {admin?.avatar ? (
                   <img
                     src={admin.avatar}
@@ -100,7 +100,7 @@ function AdminHome() {
 
       <Link
         to="/admin/profile"
-        className="mt-4 inline-block text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
+        className="mt-4 inline-block text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition cursor-pointer"
       >
         Edit Profile
       </Link>
