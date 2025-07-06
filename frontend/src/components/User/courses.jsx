@@ -6,7 +6,7 @@ import { IoMdSettings } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { IoLogOut, IoLogIn } from "react-icons/io5";
 import { HiMenu, HiX } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
 import { BACKEND_URL } from "../../frontend-config/api";
@@ -24,6 +24,7 @@ function Courses() {
   const [courseReviews, setCourseReviews] = useState([]);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -88,11 +89,12 @@ function Courses() {
     try {
       const response = await axios.post(`${BACKEND_URL}/user/logout`, {}, { withCredentials: true });
       toast.success(response.data.message);
-      localStorage.removeItem("user");
+     localStorage.removeItem("user");
+    navigate("/login", { state: { from: location.pathname } });
       setIsLoggedIn(false);
       setUser(null);
       setShowProfile(false);
-      navigate("/login");
+     
     } catch (error) {
       toast.error(error?.response?.data?.errors || "Logout failed");
     }
@@ -152,7 +154,7 @@ function Courses() {
             </Link>
           </li>
           <li>
-            <Link to="/user/setting" className="flex items-center hover:text-blue-400">
+            <Link to="/user/setting" state={{ from: location.pathname }} className="flex items-center hover:text-blue-400">
               <IoMdSettings className="mr-2" /> Manage Profile
             </Link>
           </li>
@@ -165,7 +167,7 @@ function Courses() {
                 <IoLogOut className="mr-2" /> Logout
               </button>
             ) : (
-              <Link to="/login" className="flex items-center hover:text-blue-400">
+              <Link to="/login"  state={{ from: location.pathname }} className="flex items-center hover:text-blue-400">
                 <IoLogIn className="mr-2" /> Login
               </Link>
             )}
@@ -195,7 +197,7 @@ function Courses() {
               </button>
             </div>
 
-            <button onClick={() => setShowProfile(!showProfile)}>
+            <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
               {user?.avatar ? (
                 <img
                   src={user.avatar}

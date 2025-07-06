@@ -91,6 +91,7 @@ function Buy() {
             }
           );
           toast.success("Payment Successful");
+           toast.success("Course purchase Successfully");
           navigate("/purchases");
         } catch (err) {
           toast.error("Payment verification failed");

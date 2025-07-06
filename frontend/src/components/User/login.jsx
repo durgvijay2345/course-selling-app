@@ -1,5 +1,5 @@
  import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,useLocation } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import logo from "../../assets/logo.png";
@@ -13,6 +13,7 @@ function login() {
   const [errorMessage, setErrorMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Clear fields on component mount
   useEffect(() => {
@@ -35,7 +36,8 @@ function login() {
 
       toast.success(response.data.message);
       localStorage.setItem("user", JSON.stringify(response.data));
-      navigate("/");
+       const redirectTo = location.state?.from || "/";
+    navigate(redirectTo, { replace: true });
     } catch (error) {
       const errMsg = error.response?.data?.errors || "Login failed!";
       setErrorMessage(errMsg);
@@ -57,7 +59,14 @@ function login() {
           <Link to="/courses" className="bg-orange-500 px-3 py-1 rounded text-sm sm:text-md">Join now</Link>
         </div>
       </header>
-
+       
+        <Link
+        to="/"
+        className="absolute top-24 sm:top-28 left-4 sm:left-8 text-white bg-gray-800 hover:bg-blue-700 border border-gray-600 px-4 py-2 rounded-lg text-sm font-medium shadow-lg transition-all duration-300 z-40"
+      >
+        ⬅ Back to Home
+      </Link>
+      
       {/* Login Form */}
       <div className="bg-gray-900 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md mt-28 sm:mt-32">
         <h2 className="text-2xl font-bold mb-4 text-center">

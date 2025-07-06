@@ -61,10 +61,10 @@ function Purchases() {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-  <div className="flex min-h-screen bg-gradient-to-br from-slate-100 to-blue-50">
+  <div className="flex min-h-screen bg-gradient-to-br from-slate-300 to-blue-200">
     {/* Sidebar */}
     <div
-      className={`fixed inset-y-0 left-0 bg-white shadow-2xl p-5 transform ${
+      className={`fixed inset-y-0 left-0 bg-gray-300 shadow-2xl p-5 transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0 transition-transform duration-300 ease-in-out w-64 z-50 border-r border-gray-200`}
     >

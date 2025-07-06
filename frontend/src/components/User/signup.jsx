@@ -62,6 +62,14 @@ function signup() {
         </div>
       </header>
 
+       <Link
+              to="/"
+              className="absolute top-24 sm:top-28 left-4 sm:left-8 text-white bg-gray-800 hover:bg-blue-700 border border-gray-600 px-4 py-2 rounded-lg text-sm font-medium shadow-lg transition-all duration-300 z-40"
+            >
+              ⬅ Back to Home
+            </Link>
+            
+
       {/* Signup Form */}
       <div className="bg-gray-900 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md mt-28 sm:mt-32">
         <h2 className="text-2xl font-bold mb-4 text-center">

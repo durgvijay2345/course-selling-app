@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,11 +19,10 @@ import { BACKEND_URL } from "../../frontend-config/api";
 function Home() {
   const [courses, setCourses] = useState([]);
   const [user, setUser] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [loadingPurchased, setLoadingPurchased] = useState(true);
   const navigate = useNavigate();
-
+    const [showProfile, setShowProfile] = useState(false);
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser?.user) {
@@ -33,7 +33,7 @@ function Home() {
   useEffect(() => {
     axios
       .get(`${BACKEND_URL}/course/courses`, { withCredentials: true })
-      .then((res) => setCourses(res.data.courses))
+      .then((res) => setCourses(Array.isArray(res.data.courses) ? res.data.courses : []))
       .catch((err) => console.error("Error fetching courses:", err));
   }, []);
 
@@ -66,7 +66,6 @@ function Home() {
       toast.success(res.data.message);
       localStorage.removeItem("user");
       setUser(null);
-      navigate("/login");
     } catch (err) {
       toast.error(err.response?.data?.errors || "Logout failed");
     }
@@ -87,28 +86,19 @@ function Home() {
     ],
   };
 
-  return (
-    <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen">
-      <div className="container mx-auto px-4 md:px-6 py-6">
-        {/* Header */}
-        <header className="flex flex-col md:flex-row justify-between items-center gap-4">
+ return ( <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
+      <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
+        {/* Responsive Header */}
+        <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
             <img src={logo} alt="logo" className="w-8 h-8 rounded-full" />
             <h1 className="text-2xl text-orange-500 font-bold">CourseHaven</h1>
           </div>
-          <div className="space-x-4 flex items-center relative">
+
+          <div className="flex items-center gap-4">
             {user ? (
-              <>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white font-semibold px-5 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-300 cursor-pointer"
-                >
-                  Logout
-                </button>
-                <button
-                  onClick={() => setShowProfile(!showProfile)}
-                  className="cursor-pointer"
-                >
+              <div className="relative">
+                <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -120,7 +110,7 @@ function Home() {
                   )}
                 </button>
                 {showProfile && (
-                  <div className="absolute right-0 top-14 bg-white text-black p-4 rounded-xl shadow-2xl w-72 z-50">
+                  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
                     <div className="flex flex-col items-center">
                       <img
                         src={user.avatar || ""}
@@ -133,45 +123,50 @@ function Home() {
                       <p className="text-sm text-gray-600">{user.email}</p>
                       <Link
                         to="/user/setting"
-                        className="mt-4 inline-block text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition cursor-pointer"
+                        className="mt-4 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
                       >
-                        Edit Profile
+                        Update Profile
                       </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="mt-2 text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 transition"
+                      >
+                        Logout
+                      </button>
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             ) : (
-              <>
+              <div className="flex flex-wrap gap-2">
                 <Link
                   to="/login"
-                  className="bg-white text-black font-semibold px-5 py-2 rounded-full shadow-md hover:bg-orange-500 hover:text-white transition duration-300 cursor-pointer"
+                  className="bg-white text-black font-semibold px-5 py-2 rounded-full shadow hover:bg-orange-500 hover:text-white transition"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-orange-500 text-white font-semibold px-5 py-2 rounded-full shadow-md hover:bg-white hover:text-black transition duration-300 cursor-pointer"
+                  className="bg-orange-500 text-white font-semibold px-5 py-2 rounded-full shadow hover:bg-white hover:text-black transition"
                 >
                   Signup
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </header>
 
-        {/* Hero */}
-        <section className="text-center mt-16">
-          <h1 className="text-4xl font-bold text-orange-500">Welcome to CourseHaven</h1>
-          <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-            Your one-stop destination to upskill, reskill and grow with the best curated online
-            courses. Whether you are a student, professional, or entrepreneur — we have something
-            for you.
+
+        {/* Hero Section */}
+        <section className="text-center mt-20">
+          <h1 className="text-5xl font-bold text-orange-500 tracking-tight">Welcome to CourseHaven</h1>
+          <p className="text-gray-300 mt-4 text-lg max-w-2xl mx-auto">
+            Upskill, Reskill & Grow with the best curated online courses.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/courses"
-              className="bg-green-500 text-white px-6 py-2 rounded-full shadow-md hover:bg-black hover:text-white transition cursor-pointer"
+              className="bg-green-500 text-white px-6 py-2 rounded-full shadow-md hover:bg-black hover:text-white transition"
             >
               Browse Courses
             </Link>
@@ -179,64 +174,72 @@ function Home() {
               href="https://www.youtube.com/@shubhamtiwari2533-b4d"
               target="_blank"
               rel="noreferrer"
-              className="bg-white text-black px-6 py-2 rounded-full shadow-md hover:bg-black hover:text-white transition cursor-pointer"
+              className="bg-white text-black px-6 py-2 rounded-full shadow-md hover:bg-black hover:text-white transition"
             >
               Watch Demos
             </a>
           </div>
         </section>
 
-        {/* Courses */}
+        {/* Course Slider */}
         <section className="mt-14">
           <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
           <Slider {...settings}>
-            {courses.map((course) => (
-              <div key={course._id} className="px-2">
-                <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
-                  <img
-                    src={course.image?.url}
-                    alt={course.title}
-                    className="h-40 w-full object-contain bg-white rounded-xl"
-                  />
-                  <div className="mt-4 text-center">
-                    <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
-                    {loadingPurchased ? (
-                      <button
-                        disabled
-                        className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
-                      >
-                        Checking...
-                      </button>
-                    ) : purchasedCourses.includes(course._id.toString()) ? (
-                      <Link
-                        to="/purchases"
-                        className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition cursor-pointer"
-                      >
-                        Enrolled
-                      </Link>
-                    ) : (
-                      <Link
-                        to={`/buy/${course._id}`}
-                        className="bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition cursor-pointer"
-                      >
-                        Enroll Now
-                      </Link>
-                    )}
+            {Array.isArray(courses) &&
+              courses.map((course) => (
+                <div key={course._id} className="px-2">
+                  <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
+                    <img
+                      src={course.image?.url}
+                      alt={course.title}
+                      className="h-40 w-full object-contain bg-white rounded-xl"
+                    />
+                    <div className="mt-4 text-center">
+                      <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+                      {loadingPurchased ? (
+                        <button
+                          disabled
+                          className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
+                        >
+                          Checking...
+                        </button>
+                      ) : purchasedCourses.includes(course._id) ? (
+                        <Link
+                          to="/purchases"
+                          className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition"
+                        >
+                          Enrolled
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`/buy/${course._id}`}
+                          className="bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
+                        >
+                          Enroll Now
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </Slider>
         </section>
 
-        {/* Why Choose */}
-        <section className="mt-16 text-center max-w-3xl mx-auto px-4 text-gray-300">
-          <h2 className="text-2xl font-bold text-orange-400 mb-3">Why Choose CourseHaven?</h2>
-          <p>
-            We collaborate with industry experts to bring you the most relevant, high-quality
-            courses in technology, business, and more. Learn at your pace, earn certificates, and
-            level up your career — all from the comfort of your home.
-          </p>
+        {/* Why Choose Section */}
+        <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
+          <h2 className="text-3xl font-bold text-orange-400 mb-6">Why Choose CourseHaven?</h2>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { title: "Expert Instructors", desc: "Top educators with real-world experience." },
+              { title: "Flexible Learning", desc: "Self-paced learning with lifetime access." },
+              { title: "Certification", desc: "Get certified and boost your resume." },
+            ].map((item, index) => (
+              <div key={index} className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-orange-400/20 transition">
+                <h4 className="font-semibold text-white text-lg mb-2">{item.title}</h4>
+                <p className="text-sm text-gray-400">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Static Links */}
@@ -253,7 +256,7 @@ function Home() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="bg-gray-800 text-white px-4 py-2 rounded-full shadow hover:bg-black transition cursor-pointer"
+                className="hover:text-red-400 text-white px-4 py-2 rounded-full shadow bg-blue-300 transition cursor-pointer"
               >
                 {item.label}
               </Link>
@@ -262,42 +265,49 @@ function Home() {
         </section>
 
         {/* Footer */}
-        <hr className="my-8 border-gray-600" />
-        <footer className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left text-sm">
-          <div>
-            <div className="flex justify-center md:justify-start items-center gap-2 mb-2">
-              <img src={logo} alt="logo" className="w-6 h-6 rounded-full" />
-              <h1 className="text-xl text-orange-500 font-bold">CourseHaven</h1>
-            </div>
-            <p>Follow us</p>
-           <div className="flex justify-center md:justify-start gap-6 mt-4">
-  <a href="https://facebook.com/share/1JoJVnasWk" target="_blank" rel="noopener noreferrer">
-    <FaFacebook className="text-2xl text-blue-500 hover:text-blue-700 transition duration-300" />
-  </a>
-  <a href="https://instagram.com/tiwaridurgvijay" target="_blank" rel="noopener noreferrer">
-    <FaInstagram className="text-2xl text-pink-500 hover:text-pink-700 transition duration-300" />
-  </a>
-  <a href="https://x.com/tiwari_shu9154" target="_blank" rel="noopener noreferrer">
-    <FaTwitter className="text-2xl text-blue-600 hover:text-blue-800 transition duration-300" />
-  </a>
-  <a href="https://github.com/durgvijay2345" target="_blank" rel="noopener noreferrer">
-    <FaGithub className="text-2xl text-gray-700 hover:text-black transition duration-300" />
-  </a>
-</div>
+      <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
+  
+  {/* Column 1 - Logo & Socials */}
+  <div>
+    <div className="flex justify-center sm:justify-start items-center gap-2 mb-2">
+      <img src={logo} alt="logo" className="w-6 h-6 rounded-full" />
+      <h1 className="text-xl text-orange-500 font-bold">CourseHaven</h1>
+    </div>
+    <p className="text-gray-300">Follow us on</p>
+    <div className="flex justify-center sm:justify-start gap-4 mt-2">
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+        <FaFacebook className="text-xl text-blue-500 hover:text-blue-700 transition duration-300" />
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <FaInstagram className="text-xl text-pink-500 hover:text-pink-700 transition duration-300" />
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <FaTwitter className="text-xl text-blue-400 hover:text-blue-600 transition duration-300" />
+      </a>
+      <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+        <FaGithub className="text-xl text-white hover:text-gray-400 transition duration-300" />
+      </a>
+    </div>
+  </div>
 
-          </div>
-          <div>
-            <h3 className="font-semibold mb-1">Connect</h3>
-            <p>YouTube: MeShubham</p>
-            <p>Telegram: Durgvijay Tiwari</p>
-            <p>GitHub: durgvijay2345</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-1">© 2025 CourseHaven</h3>
-            <p>All rights reserved.</p>
-            <p className="text-gray-400">Designed by CourseHaven Team</p>
-          </div>
-        </footer>
+  {/* Column 2 - Connect Info */}
+  <div>
+    <h3 className="font-semibold mb-2 text-white">Connect</h3>
+    <p>YouTube: <span className="text-orange-300">MeShubham</span></p>
+    <p>Telegram: <span className="text-orange-300">Durgvijay Tiwari</span></p>
+    <p>GitHub: <span className="text-orange-300">durgvijay2345</span></p>
+  </div>
+
+  {/* Column 3 - Copyright */}
+  <div>
+    <h3 className="font-semibold mb-2 text-white">© 2025 CourseHaven</h3>
+    <p>All rights reserved.</p>
+    <p className="text-gray-500">Designed by CourseHaven Team</p>
+  </div>
+
+</footer>
+
+
       </div>
     </div>
   );
