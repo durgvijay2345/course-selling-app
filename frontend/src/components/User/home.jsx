@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,8 +20,9 @@ function Home() {
   const [user, setUser] = useState(null);
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [loadingPurchased, setLoadingPurchased] = useState(true);
+  const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
-    const [showProfile, setShowProfile] = useState(false);
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser?.user) {
@@ -86,18 +86,20 @@ function Home() {
     ],
   };
 
- return ( <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
+  return (
+    <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
-        {/* Responsive Header */}
+
+        {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
             <img src={logo} alt="logo" className="w-8 h-8 rounded-full" />
             <h1 className="text-2xl text-orange-500 font-bold">CourseHaven</h1>
           </div>
-  <div className="flex items-center gap-4">
-    <div className="flex items-center gap-4">
+
+          <div className="flex items-center gap-4">
             {user ? (
-              <div className="relative">
+              <div className="relative flex items-center gap-4">
                 <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
                   {user.avatar ? (
                     <img
@@ -109,37 +111,45 @@ function Home() {
                     <FaUserCircle className="text-3xl text-orange-400" />
                   )}
                 </button>
-               {showProfile && (
-  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
-    <div className="flex flex-col items-center">
-      <img
-        src={user.avatar || ""}
-        alt="Avatar"
-        className="h-20 w-20 rounded-full object-cover border-4 border-orange-500 mb-3"
-      />
-      <h3 className="text-lg font-semibold">
-        {user.firstName} {user.lastName}
-      </h3>
-      <p className="text-sm text-gray-600">{user.email}</p>
-      <Link
-        to="/user/setting"
-        className="mt-4 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
-      >
-        Update Profile
-      </Link>
-      <button
-        onClick={handleLogout}
-        className="mt-2 text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 transition"
-      >
-        Logout
-      </button>
 
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    navigate("/signup");
+                    toast.success("Logged out. Ready for new signup.");
+                  }}
+                  className="text-sm text-white bg-green-600 px-4 py-2 rounded-full hover:bg-green-700 transition"
+                >
+                  New Signup
+                </button>
 
-    
-    </div>
-  </div>
-)}
-
+                {showProfile && (
+                  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
+                    <div className="flex flex-col items-center">
+                      <img
+                        src={user.avatar || ""}
+                        alt="Avatar"
+                        className="h-20 w-20 rounded-full object-cover border-4 border-orange-500 mb-3"
+                      />
+                      <h3 className="text-lg font-semibold">
+                        {user.firstName} {user.lastName}
+                      </h3>
+                      <p className="text-sm text-gray-600">{user.email}</p>
+                      <Link
+                        to="/user/setting"
+                        className="mt-4 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                      >
+                        Update Profile
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="mt-2 text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 transition"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -158,20 +168,7 @@ function Home() {
               </div>
             )}
           </div>
-            <button
-        onClick={() => {
-          localStorage.removeItem("user");
-          navigate("/signup");
-          toast.success("Logged out. Ready for new signup.");
-        }}
-        className="mt-1 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-green-700 transition"
-      >
-        New Signup
-      </button>
-  </div>
-          
         </header>
-
 
         {/* Hero Section */}
         <section className="text-center mt-20">
@@ -197,49 +194,49 @@ function Home() {
           </div>
         </section>
 
-        {/* Course Slider */}
+        {/* Slider Section */}
         <section className="mt-14">
           <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
           <div className="relative overflow-hidden">
-          <Slider {...settings}>
-            {Array.isArray(courses) &&
-              courses.map((course) => (
-                <div key={course._id} className="px-2">
-                  <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
-                    <img
-                      src={course.image?.url}
-                      alt={course.title}
-                      className="h-40 w-full object-contain bg-white rounded-xl"
-                    />
-                    <div className="mt-4 text-center">
-                      <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
-                      {loadingPurchased ? (
-                        <button
-                          disabled
-                          className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
-                        >
-                          Checking...
-                        </button>
-                      ) : purchasedCourses.includes(course._id) ? (
-                        <Link
-                          to="/purchases"
-                          className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition"
-                        >
-                          Enrolled
-                        </Link>
-                      ) : (
-                        <Link
-                          to={`/buy/${course._id}`}
-                          className="relative z-10 bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
-                        >
-                          Enroll Now
-                        </Link>
-                      )}
+            <Slider {...settings}>
+              {Array.isArray(courses) &&
+                courses.map((course) => (
+                  <div key={course._id} className="px-2">
+                    <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
+                      <img
+                        src={course.image?.url}
+                        alt={course.title}
+                        className="h-40 w-full object-contain bg-white rounded-xl"
+                      />
+                      <div className="mt-4 text-center">
+                        <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+                        {loadingPurchased ? (
+                          <button
+                            disabled
+                            className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
+                          >
+                            Checking...
+                          </button>
+                        ) : purchasedCourses.includes(course._id) ? (
+                          <Link
+                            to="/purchases"
+                            className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition"
+                          >
+                            Enrolled
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/buy/${course._id}`}
+                            className="relative z-10 bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
+                          >
+                            Enroll Now
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-          </Slider>
+                ))}
+            </Slider>
           </div>
         </section>
 
@@ -260,72 +257,35 @@ function Home() {
           </div>
         </section>
 
-        {/* Static Links */}
-        <section className="mt-12 text-center">
-          <h3 className="text-2xl font-semibold text-orange-400 mb-6">Explore Policies & Help</h3>
-          <div className="flex flex-wrap justify-center gap-4 px-4">
-            {[
-              { to: "/privacy-policy", label: "Privacy Policy" },
-              { to: "/contact-us", label: "Contact Us" },
-              { to: "/refund-policy", label: "Refund Policy" },
-              { to: "/shipping-policy", label: "Shipping Policy" },
-              { to: "/terms-and-conditions", label: "Terms & Conditions" },
-            ].map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="hover:text-red-400 text-white px-4 py-2 rounded-full shadow bg-blue-300 transition cursor-pointer"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </section>
-
         {/* Footer */}
-      <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
-  
-  {/* Column 1 - Logo & Socials */}
-  <div>
-    <div className="flex justify-center sm:justify-start items-center gap-2 mb-2">
-      <img src={logo} alt="logo" className="w-6 h-6 rounded-full" />
-      <h1 className="text-xl text-orange-500 font-bold">CourseHaven</h1>
-    </div>
-    <p className="text-gray-300">Follow us on</p>
-    <div className="flex justify-center sm:justify-start gap-4 mt-2">
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-        <FaFacebook className="text-xl text-blue-500 hover:text-blue-700 transition duration-300" />
-      </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-        <FaInstagram className="text-xl text-pink-500 hover:text-pink-700 transition duration-300" />
-      </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-        <FaTwitter className="text-xl text-blue-400 hover:text-blue-600 transition duration-300" />
-      </a>
-      <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-        <FaGithub className="text-xl text-white hover:text-gray-400 transition duration-300" />
-      </a>
-    </div>
-  </div>
+        <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
+          <div>
+            <div className="flex justify-center sm:justify-start items-center gap-2 mb-2">
+              <img src={logo} alt="logo" className="w-6 h-6 rounded-full" />
+              <h1 className="text-xl text-orange-500 font-bold">CourseHaven</h1>
+            </div>
+            <p className="text-gray-300">Follow us on</p>
+            <div className="flex justify-center sm:justify-start gap-4 mt-2">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebook className="text-xl text-blue-500 hover:text-blue-700 transition duration-300" /></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram className="text-xl text-pink-500 hover:text-pink-700 transition duration-300" /></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter className="text-xl text-blue-400 hover:text-blue-600 transition duration-300" /></a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer"><FaGithub className="text-xl text-white hover:text-gray-400 transition duration-300" /></a>
+            </div>
+          </div>
 
-  {/* Column 2 - Connect Info */}
-  <div>
-    <h3 className="font-semibold mb-2 text-white">Connect</h3>
-    <p>YouTube: <span className="text-orange-300">MeShubham</span></p>
-    <p>Telegram: <span className="text-orange-300">Durgvijay Tiwari</span></p>
-    <p>GitHub: <span className="text-orange-300">durgvijay2345</span></p>
-  </div>
+          <div>
+            <h3 className="font-semibold mb-2 text-white">Connect</h3>
+            <p>YouTube: <span className="text-orange-300">MeShubham</span></p>
+            <p>Telegram: <span className="text-orange-300">Durgvijay Tiwari</span></p>
+            <p>GitHub: <span className="text-orange-300">durgvijay2345</span></p>
+          </div>
 
-  {/* Column 3 - Copyright */}
-  <div>
-    <h3 className="font-semibold mb-2 text-white">© 2025 CourseHaven</h3>
-    <p>All rights reserved.</p>
-    <p className="text-gray-500">Designed by CourseHaven Team</p>
-  </div>
-
-</footer>
-
-
+          <div>
+            <h3 className="font-semibold mb-2 text-white">© 2025 CourseHaven</h3>
+            <p>All rights reserved.</p>
+            <p className="text-gray-500">Designed by CourseHaven Team</p>
+          </div>
+        </footer>
       </div>
     </div>
   );
