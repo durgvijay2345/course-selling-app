@@ -94,8 +94,8 @@ function Home() {
             <img src={logo} alt="logo" className="w-8 h-8 rounded-full" />
             <h1 className="text-2xl text-orange-500 font-bold">CourseHaven</h1>
           </div>
-
-          <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4">
             {user ? (
               <div className="relative">
                 <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
@@ -109,33 +109,37 @@ function Home() {
                     <FaUserCircle className="text-3xl text-orange-400" />
                   )}
                 </button>
-                {showProfile && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
-                    <div className="flex flex-col items-center">
-                      <img
-                        src={user.avatar || ""}
-                        alt="Avatar"
-                        className="h-20 w-20 rounded-full object-cover border-4 border-orange-500 mb-3"
-                      />
-                      <h3 className="text-lg font-semibold">
-                        {user.firstName} {user.lastName}
-                      </h3>
-                      <p className="text-sm text-gray-600">{user.email}</p>
-                      <Link
-                        to="/user/setting"
-                        className="mt-4 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
-                      >
-                        Update Profile
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="mt-2 text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 transition"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  </div>
-                )}
+               {showProfile && (
+  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
+    <div className="flex flex-col items-center">
+      <img
+        src={user.avatar || ""}
+        alt="Avatar"
+        className="h-20 w-20 rounded-full object-cover border-4 border-orange-500 mb-3"
+      />
+      <h3 className="text-lg font-semibold">
+        {user.firstName} {user.lastName}
+      </h3>
+      <p className="text-sm text-gray-600">{user.email}</p>
+      <Link
+        to="/user/setting"
+        className="mt-4 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700 transition"
+      >
+        Update Profile
+      </Link>
+      <button
+        onClick={handleLogout}
+        className="mt-2 text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 transition"
+      >
+        Logout
+      </button>
+
+
+    
+    </div>
+  </div>
+)}
+
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -154,6 +158,18 @@ function Home() {
               </div>
             )}
           </div>
+            <button
+        onClick={() => {
+          localStorage.removeItem("user");
+          navigate("/signup");
+          toast.success("Logged out. Ready for new signup.");
+        }}
+        className="mt-1 text-sm text-white bg-blue-600 px-4 py-2 rounded-full hover:bg-green-700 transition"
+      >
+        New Signup
+      </button>
+  </div>
+          
         </header>
 
 
@@ -184,6 +200,7 @@ function Home() {
         {/* Course Slider */}
         <section className="mt-14">
           <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
+          <div className="relative overflow-hidden">
           <Slider {...settings}>
             {Array.isArray(courses) &&
               courses.map((course) => (
@@ -213,7 +230,7 @@ function Home() {
                       ) : (
                         <Link
                           to={`/buy/${course._id}`}
-                          className="bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
+                          className="relative z-10 bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
                         >
                           Enroll Now
                         </Link>
@@ -223,6 +240,7 @@ function Home() {
                 </div>
               ))}
           </Slider>
+          </div>
         </section>
 
         {/* Why Choose Section */}

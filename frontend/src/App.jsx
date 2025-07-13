@@ -8,6 +8,7 @@ import { BACKEND_URL } from "./frontend-config/api";
 import Home from "./components/User/home";
 import Login from "./components/User/login";
 import SignUp from "./components/User/signup";
+
 import Courses from "./components/User/courses";
 import CourseDetail from "./components/User/CourseDetail";
 import Buy from "./components/User/buy";
@@ -17,22 +18,17 @@ import ForgotPassword from "./components/User/forgotPassWord";
 import ResetPassword from "./components/User/ResetPassword";
 import VerifyOtp from "./components/User/verifyOtp";
 
+// Static Pages
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ContactUs from "./pages/ContactUs";
 
-
-
-
 // Admin Components
 import AdminHome from "./components/Admin/AdminHome";
 import AdminProfile from "./components/Admin/AdminProfile";
 import AdminLogin from "./components/Admin/AdminLogin";
-
-
-
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminCreateCourse from "./components/Admin/AdminCreateCourse";
 import AdminUpdateCourse from "./components/Admin/AdminUpdateCourse";
@@ -43,58 +39,56 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
- 
-
+  // 🛡️ Auto logout for admin if visiting user side
   useEffect(() => {
     const admin = JSON.parse(localStorage.getItem("admin"));
     const isAdminRoute = location.pathname.startsWith("/admin");
-
-    // 🛡️ If logged-in admin visits a non-admin route, auto logout
     if (admin?.token && !isAdminRoute) {
-      axios.post(`${BACKEND_URL}/admin/logout`, {}, {
-        withCredentials: true,
-      }).then(() => {
-        localStorage.removeItem("admin");
-        console.log("✅ Admin auto-logged out");
-      }).catch((err) => {
-        console.error("⚠️ Auto logout failed", err);
-      });
+      axios.post(`${BACKEND_URL}/admin/logout`, {}, { withCredentials: true })
+        .then(() => {
+          localStorage.removeItem("admin");
+          console.log("✅ Admin auto-logged out");
+        })
+        .catch((err) => {
+          console.error("⚠️ Admin auto logout failed", err);
+        });
     }
   }, [location.pathname]);
 
   return (
-    <div>
+    <>
       <Routes>
-        {/* ✅ User Routes */}
+        {/* ✅ Public User Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/buy/:courseId" element={<Buy />} />
-        <Route path="/purchases" element={<Purchases />} />
-        <Route path="/course/:courseId" element={<CourseDetail />} />
-        <Route path="user/setting" element={<Settings />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
 
-
+        {/* 📄 Static Public Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/contact-us" element={<ContactUs />} />
 
-        {/* ✅ Admin Public Routes */}
+        
+        
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/buy/:courseId" element={<Buy />} />
+          <Route path="/purchases" element={<Purchases />} />
+          <Route path="/course/:courseId" element={<CourseDetail />} />
+          <Route path="/user/setting" element={<Settings />} />
+        
+
+        {/* 🔐 Admin Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
-     
 
-       
-        {/* ✅ Admin Protected Routes */}
+        {/* 🔐 Protected Admin Routes */}
         <Route path="/admin" element={<AdminPrivateRoute />}>
-       <Route index element={<AdminHome />} /> {/* /admin => AdminHome */}
-          <Route path="/admin/profile" element={<AdminProfile />} />
-
+          <Route index element={<AdminHome />} />
+          <Route path="profile" element={<AdminProfile />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="create" element={<AdminCreateCourse />} />
           <Route path="update/:courseId" element={<AdminUpdateCourse />} />
@@ -103,7 +97,7 @@ function App() {
       </Routes>
 
       <Toaster />
-    </div>
+    </>
   );
 }
 
