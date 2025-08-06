@@ -85,18 +85,39 @@ function Home() {
     }
   };
 
-  const settings = {
+ var settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
     autoplay: true,
-    swipe: true,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
     ],
   };
 
@@ -218,49 +239,31 @@ function Home() {
         </section>
 
         {/* Slider Section */}
-        <section className="mt-14">
-          <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
-          <div className="relative overflow-hidden">
-            <Slider {...settings}>
-              {Array.isArray(courses) &&
-                courses.map((course) => (
-                  <div key={course._id} className="px-2">
-                    <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
-                      <img
-                        src={course.image?.url}
-                        alt={course.title}
-                        className="h-40 w-full object-contain bg-white rounded-xl"
-                      />
-                      <div className="mt-4 text-center">
-                        <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
-                        {loadingPurchased ? (
-                          <button
-                            disabled
-                            className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
-                          >
-                            Checking...
-                          </button>
-                        ) : purchasedCourses.includes(course._id) ? (
-                          <Link
-                            to="/purchases"
-                            className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition"
-                          >
-                            Enrolled
-                          </Link>
-                        ) : (
-                          <Link
-                            to={`/buy/${course._id}`}
-                            className="relative z-10 bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
-                          >
-                            Enroll Now
-                          </Link>
-                        )}
-                      </div>
+        </section>
+        <section className="p-10">
+          <Slider className="" {...settings}>
+            {courses.map((course) => (
+              <div key={course._id} className="p-4">
+                <div className="relative flex-shrink-0 w-92 transition-transform duration-300 transform hover:scale-105">
+                  <div className="bg-gray-900 rounded-lg overflow-hidden">
+                    <img
+                      className="h-32 w-full object-contain"
+                      src={course.image.url}
+                      alt=""
+                    />
+                    <div className="p-6 text-center">
+                      <h2 className="text-xl font-bold text-white">
+                        {course.title}
+                      </h2>
+                      <Link to={`/buy/${course._id}`} className="mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300">
+                        Enroll Now
+                      </Link>
                     </div>
                   </div>
-                ))}
-            </Slider>
-          </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </section>
 
         {/* Why Choose Section */}
