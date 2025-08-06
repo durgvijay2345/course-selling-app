@@ -1,14 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaTwitter, FaGithub, FaUserCircle } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaGithub,
+  FaUserCircle,
+} from "react-icons/fa";
 import axios from "axios";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "../../frontend-config/api";
-import "../../index.css";
 
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -39,7 +44,7 @@ function Home() {
       if (!storedUser?.token) return;
       try {
         const res = await axios.get(`${BACKEND_URL}/purchase/all`, {
-          headers: { Authorization: `Bearer ${storedUser.token}` },
+          headers: { Authorization: Bearer ${storedUser.token} },
           withCredentials: true,
         });
         setPurchasedCourses(res.data.purchasedCourses || []);
@@ -67,7 +72,11 @@ function Home() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(`${BACKEND_URL}/user/logout`, {}, { withCredentials: true });
+      const res = await axios.post(
+        ${BACKEND_URL}/user/logout,
+        {},
+        { withCredentials: true }
+      );
       toast.success(res.data.message);
       localStorage.removeItem("user");
       setUser(null);
@@ -75,7 +84,6 @@ function Home() {
       toast.error(err.response?.data?.errors || "Logout failed");
     }
   };
-
   var settings = {
     dots: true,
     infinite: true,
@@ -225,47 +233,55 @@ function Home() {
           </div>
         </section>
 
-     <section className="p-10">
-  <Slider {...settings}>
-    {courses.map((course) => {
-      const purchasedCourseIds = purchasedCourses.map(item => item.courseId || item._id);
-      const isPurchased = purchasedCourseIds.includes(course._id);
+       <section className="mt-14">
+          <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
+          <div className="relative overflow-hidden">
+            <Slider {...settings}>
+              {Array.isArray(courses) &&
+                courses.map((course) => {
+                  const purchasedCourseIds = purchasedCourses.map(item => item.courseId || item._id);
+                  const isPurchased = purchasedCourseIds.includes(course._id);
 
-      return (
-        <div key={course._id} className="p-4">
-          <div className="bg-gray-900 rounded-xl overflow-hidden flex flex-col h-full shadow hover:scale-105 transition">
-            <img
-              className="h-40 w-full object-contain bg-white"
-              src={course.image.url}
-              alt={course.title}
-            />
-            <div className="p-4 flex-1 flex flex-col justify-between text-center">
-              <h2 className="text-lg font-bold text-white mb-4 truncate">
-                {course.title}
-              </h2>
-
-              {isPurchased ? (
-                <button
-                  onClick={() => navigate("/purchases")}
-                  className="bg-green-500 text-white py-2 px-4 rounded-full cursor-pointer hover:bg-green-600 transition"
-                >
-                  Enrolled
-                </button>
-              ) : (
-                <Link
-                  to={`/buy/${course._id}`}
-                  className="bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 transition"
-                >
-                  Enroll Now
-                </Link>
-              )}
-            </div>
+                  return (
+                    <div key={course._id} className="px-2">
+                      <div className="bg-gray-900 rounded-2xl shadow-md hover:scale-105 transition p-4">
+                        <img
+                          src={course.image?.url}
+                          alt={course.title}
+                          className="h-40 w-full object-contain bg-white rounded-xl"
+                        />
+                        <div className="mt-4 text-center">
+                          <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+                          {loadingPurchased ? (
+                            <button
+                              disabled
+                              className="bg-gray-600 text-white text-sm px-4 py-2 rounded-full shadow-md cursor-wait"
+                            >
+                              Checking...
+                            </button>
+                          ) : isPurchased ? (
+                            <button
+                              onClick={() => navigate("/purchases")}
+                              className="bg-green-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-black transition"
+                            >
+                              Enrolled
+                            </button>
+                          ) : (
+                            <Link
+                              to={`/buy/${course._id}`}
+                              className="bg-orange-500 text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
+                            >
+                              Enroll Now
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </Slider>
           </div>
-        </div>
-      );
-    })}
-  </Slider>
-</section>
+        </section>
 
         {/* Why Choose Section */}
         <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
