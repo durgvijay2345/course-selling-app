@@ -225,31 +225,41 @@ function Home() {
           </div>
         </section>
 
-        {/* Slider Section */}
-        <section className="p-10">
-          <Slider {...settings}>
-            {courses.map((course) => (
-              <div key={course._id} className="p-4">
-                <div className="bg-gray-900 rounded-xl overflow-hidden flex flex-col h-full shadow hover:scale-105 transition">
-                  <img
-                    className="h-40 w-full object-contain bg-white"
-                    src={course.image.url}
-                    alt={course.title}
-                  />
-                  <div className="p-4 flex-1 flex flex-col justify-between text-center">
-                    <h2 className="text-lg font-bold text-white mb-4 truncate">{course.title}</h2>
-                    <Link
-                      to={`/buy/${course._id}`}
-                      className="bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 transition"
-                    >
-                      Enroll Now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Slider>
-        </section>
+      <section className="p-10">
+  <Slider {...settings}>
+    {courses.map((course) => (
+      <div key={course._id} className="p-4">
+        <div className="bg-gray-900 rounded-xl overflow-hidden flex flex-col h-full shadow hover:scale-105 transition">
+          <img
+            className="h-40 w-full object-contain bg-white"
+            src={course.image.url}
+            alt={course.title}
+          />
+          <div className="p-4 flex-1 flex flex-col justify-between text-center">
+            <h2 className="text-lg font-bold text-white mb-4 truncate">{course.title}</h2>
+
+            {purchasedCourses.some((item) => item.courseId === course._id) ? (
+              <button
+                onClick={() => navigate("/purchases")}
+                className="bg-green-500 text-white py-2 px-4 rounded-full cursor-pointer hover:bg-green-600 transition"
+              >
+                Enrolled
+              </button>
+            ) : (
+              <Link
+                to={`/buy/${course._id}`}
+                className="bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 transition"
+              >
+                Enroll Now
+              </Link>
+            )}
+
+          </div>
+        </div>
+      </div>
+    ))}
+  </Slider>
+</section>
 
         <hr />
         {/* Why Choose Section */}
