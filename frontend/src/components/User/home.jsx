@@ -44,7 +44,7 @@ function Home() {
       if (!storedUser?.token) return;
       try {
         const res = await axios.get(`${BACKEND_URL}/purchase/all`, {
-          headers: { Authorization: Bearer ${storedUser.token} },
+          headers: { Authorization: `Bearer ${storedUser.token}` },
           withCredentials: true,
         });
         setPurchasedCourses(res.data.purchasedCourses || []);
@@ -73,7 +73,7 @@ function Home() {
   const handleLogout = async () => {
     try {
       const res = await axios.post(
-        ${BACKEND_URL}/user/logout,
+        `${BACKEND_URL}/user/logout`,
         {},
         { withCredentials: true }
       );
@@ -84,36 +84,19 @@ function Home() {
       toast.error(err.response?.data?.errors || "Logout failed");
     }
   };
-  var settings = {
+
+  const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     autoplay: true,
-    arrows: true,
+    swipe: true,
     responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   };
 
