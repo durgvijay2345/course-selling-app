@@ -63,6 +63,7 @@ function Home() {
         setShowProfile(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -102,6 +103,7 @@ function Home() {
   return (
     <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
+
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
@@ -128,6 +130,17 @@ function Home() {
                   ) : (
                     <FaUserCircle className="text-3xl text-orange-400" />
                   )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    navigate("/signup");
+                    toast.success("Logged out. Ready for new signup.");
+                  }}
+                  className="text-sm text-white bg-green-600 px-4 py-2 rounded-full hover:bg-green-700 transition"
+                >
+                  New Signup
                 </button>
 
                 {showProfile && (
@@ -250,18 +263,6 @@ function Home() {
           </div>
         </section>
 
-        {/* Quick Links Section */}
-        <section className="mt-20 text-center max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-orange-400 mb-6">Quick Links</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 text-white">
-            <Link to="/privacy" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Privacy Policy</Link>
-            <Link to="/terms" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Terms & Conditions</Link>
-            <Link to="/refund" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Refund Policy</Link>
-            <Link to="/shipping" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Shipping Policy</Link>
-            <Link to="/contact" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Contact Us</Link>
-          </div>
-        </section>
-
         {/* Footer */}
         <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
           <div>
@@ -286,9 +287,14 @@ function Home() {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2 text-white">© 2025 CourseHaven</h3>
-            <p>All rights reserved.</p>
-            <p className="text-gray-500">Designed by CourseHaven Team</p>
+            <h3 className="font-semibold mb-2 text-white">Quick Links</h3>
+            <div className="flex flex-col gap-2">
+              <Link to="/privacy-policy" className="hover:text-orange-500">Privacy Policy</Link>
+              <Link to="/terms-and-conditions" className="hover:text-orange-500">Terms & Conditions</Link>
+              <Link to="/refund-policy" className="hover:text-orange-500">Refund Policy</Link>
+              <Link to="/shipping-policy" className="hover:text-orange-500">Shipping Policy</Link>
+              <Link to="/contact-us" className="hover:text-orange-500">Contact Us</Link>
+            </div>
           </div>
         </footer>
       </div>
@@ -297,4 +303,5 @@ function Home() {
 }
 
 export default Home;
+
 
