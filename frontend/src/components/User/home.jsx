@@ -279,28 +279,29 @@ function Home() {
         </section>
 
         {/* Static Pages Sections */}
-        <section className="mt-20 space-y-20">
-          <div id="contact" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4 cursor-pointer" onclick={()=>navigate("/privacy-policy")>Contact Us</h2>
-            <p className="text-gray-300">For any inquiries, feel free to reach us at contact@coursehaven.com</p>
-          </div>
-          <div id="privacy" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4">Privacy Policy</h2>
-            <p className="text-gray-300">We value your privacy. Read how we handle your data responsibly and securely.</p>
-          </div>
-          <div id="refund" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4">Refund Policy</h2>
-            <p className="text-gray-300">Read about our hassle-free refund process and conditions.</p>
-          </div>
-          <div id="shipping" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4">Shipping Policy</h2>
-            <p className="text-gray-300">Learn about delivery timelines and shipping coverage.</p>
-          </div>
-          <div id="terms" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4">Terms & Conditions</h2>
-            <p className="text-gray-300">Please read our terms and conditions carefully before using our services.</p>
-          </div>
-        </section>
+      <section className="mt-20 space-y-20">
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/contact")}>
+    <h2 className="text-2xl font-bold text-orange-500 mb-4">Contact Us</h2>
+    <p className="text-gray-300">For any inquiries, feel free to reach us at durgvijaytiwari82@gmail.com</p>
+  </div>
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/privacy-policy")}>
+    <h2 className="text-2xl font-bold text-orange-500 mb-4">Privacy Policy</h2>
+    <p className="text-gray-300">We value your privacy. Read how we handle your data responsibly and securely.</p>
+  </div>
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/refund-policy")}>
+    <h2 className="text-2xl font-bold text-orange-500 mb-4">Refund Policy</h2>
+    <p className="text-gray-300">Read about our hassle-free refund process and conditions.</p>
+  </div>
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/shipping-policy")}>
+    <h2 className="text-2xl font-bold text-orange-500 mb-4">Shipping Policy</h2>
+    <p className="text-gray-300">Learn about delivery timelines and shipping coverage.</p>
+  </div>
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/terms-and-conditions")}>
+    <h2 className="text-2xl font-bold text-orange-500 mb-4">Terms & Conditions</h2>
+    <p className="text-gray-300">Please read our terms and conditions carefully before using our services.</p>
+  </div>
+</section>
+
 
         {/* Footer */}
         <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
