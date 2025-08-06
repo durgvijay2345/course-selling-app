@@ -3,9 +3,9 @@ import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTwitter, FaGithub, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "../../frontend-config/api";
 
@@ -75,7 +75,7 @@ function Home() {
     }
   };
 
-  const settings = {
+   var settings = {
     dots: true,
     infinite: false,
     speed: 500,
@@ -84,11 +84,33 @@ function Home() {
     initialSlide: 0,
     autoplay: true,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2, infinite: true, dots: true } },
-      { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2, initialSlide: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
     ],
   };
+
 
   return (
     <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter">
@@ -206,16 +228,21 @@ function Home() {
           </div>
         </section>
 
-        {/* Slider Section */}
-        <section className="p-10">
-          <Slider {...settings}>
+       <section className="p-10">
+          <Slider className="" {...settings}>
             {courses.map((course) => (
               <div key={course._id} className="p-4">
                 <div className="relative flex-shrink-0 w-92 transition-transform duration-300 transform hover:scale-105">
                   <div className="bg-gray-900 rounded-lg overflow-hidden">
-                    <img className="h-32 w-full object-contain" src={course.image.url} alt={course.title} />
+                    <img
+                      className="h-32 w-full object-contain"
+                      src={course.image.url}
+                      alt=""
+                    />
                     <div className="p-6 text-center">
-                      <h2 className="text-xl font-bold text-white">{course.title}</h2>
+                      <h2 className="text-xl font-bold text-white">
+                        {course.title}
+                      </h2>
                       <Link to={`/buy/${course._id}`} className="mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300">
                         Enroll Now
                       </Link>
@@ -227,6 +254,7 @@ function Home() {
           </Slider>
         </section>
 
+        <hr />
         {/* Why Choose Section */}
         <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
           <h2 className="text-3xl font-bold text-orange-400 mb-6">Why Choose CourseHaven?</h2>
