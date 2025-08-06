@@ -278,11 +278,10 @@ function Home() {
           </div>
         </section>
 
-        {/* Static Pages Sections */}
       <section className="mt-20 space-y-20">
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/contact")}>
+  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/contact-us")}>
     <h2 className="text-2xl font-bold text-orange-500 mb-4">Contact Us</h2>
-    <p className="text-gray-300">For any inquiries, feel free to reach us at durgvijaytiwari82@gmail.com</p>
+    <p className="text-gray-300">For any inquiries, feel free to reach us at contact@coursehaven.com</p>
   </div>
   <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/privacy-policy")}>
     <h2 className="text-2xl font-bold text-orange-500 mb-4">Privacy Policy</h2>
