@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "../../frontend-config/api";
+import "../../index.css";  
 
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -75,30 +76,27 @@ function Home() {
     }
   };
 
-   var settings = {
+  var settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    initialSlide: 0,
     autoplay: true,
+    arrows: true,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1280,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: true,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
@@ -111,9 +109,8 @@ function Home() {
     ],
   };
 
-
   return (
-    <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter">
+    <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter overflow-x-hidden overflow-y-hidden">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
@@ -228,25 +225,25 @@ function Home() {
           </div>
         </section>
 
-       <section className="p-10">
-          <Slider className="" {...settings}>
+        {/* Slider Section */}
+        <section className="p-10">
+          <Slider {...settings}>
             {courses.map((course) => (
               <div key={course._id} className="p-4">
-                <div className="relative flex-shrink-0 w-92 transition-transform duration-300 transform hover:scale-105">
-                  <div className="bg-gray-900 rounded-lg overflow-hidden">
-                    <img
-                      className="h-32 w-full object-contain"
-                      src={course.image.url}
-                      alt=""
-                    />
-                    <div className="p-6 text-center">
-                      <h2 className="text-xl font-bold text-white">
-                        {course.title}
-                      </h2>
-                      <Link to={`/buy/${course._id}`} className="mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300">
-                        Enroll Now
-                      </Link>
-                    </div>
+                <div className="bg-gray-900 rounded-xl overflow-hidden flex flex-col h-full shadow hover:scale-105 transition">
+                  <img
+                    className="h-40 w-full object-contain bg-white"
+                    src={course.image.url}
+                    alt={course.title}
+                  />
+                  <div className="p-4 flex-1 flex flex-col justify-between text-center">
+                    <h2 className="text-lg font-bold text-white mb-4 truncate">{course.title}</h2>
+                    <Link
+                      to={`/buy/${course._id}`}
+                      className="bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 transition"
+                    >
+                      Enroll Now
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -319,6 +316,7 @@ function Home() {
 }
 
 export default Home;
+
 
 
 
