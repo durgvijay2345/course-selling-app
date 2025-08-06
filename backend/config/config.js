@@ -19,8 +19,9 @@ const config = {
   API_KEY: process.env.API_KEY,
   API_SECRET: process.env.API_SECRET,
   FRONTEND_URL: process.env.FRONTEND_URL,
-  RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
-  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+ RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
+
   NODE_ENV: process.env.NODE_ENV,
 };
 
