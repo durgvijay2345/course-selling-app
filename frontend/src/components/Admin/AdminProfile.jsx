@@ -130,7 +130,7 @@ function AdminProfile() {
        className="flex items-center gap-2 bg-red-400 hover:bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md cursor-pointer"
         >
           <FaEdit className="text-lg" />
-          Update Admin
+          Update Profile
         </button>
     </form>
   </div>
