@@ -63,7 +63,6 @@ function Home() {
         setShowProfile(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -103,7 +102,6 @@ function Home() {
   return (
     <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
-
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
@@ -130,17 +128,6 @@ function Home() {
                   ) : (
                     <FaUserCircle className="text-3xl text-orange-400" />
                   )}
-                </button>
-
-                <button
-                  onClick={() => {
-                    localStorage.removeItem("user");
-                    navigate("/signup");
-                    toast.success("Logged out. Ready for new signup.");
-                  }}
-                  className="text-sm text-white bg-green-600 px-4 py-2 rounded-full hover:bg-green-700 transition"
-                >
-                  New Signup
                 </button>
 
                 {showProfile && (
@@ -263,18 +250,15 @@ function Home() {
           </div>
         </section>
 
-        {/* Why Choose Section */}
-        <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
-          <h2 className="text-3xl font-bold text-orange-400 mb-6">Why Choose CourseHaven?</h2>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[{ title: "Expert Instructors", desc: "Top educators with real-world experience." },
-              { title: "Flexible Learning", desc: "Self-paced learning with lifetime access." },
-              { title: "Certification", desc: "Get certified and boost your resume." }].map((item, index) => (
-                <div key={index} className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-orange-400/20 transition">
-                  <h4 className="font-semibold text-white text-lg mb-2">{item.title}</h4>
-                  <p className="text-sm text-gray-400">{item.desc}</p>
-                </div>
-            ))}
+        {/* Quick Links Section */}
+        <section className="mt-20 text-center max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-orange-400 mb-6">Quick Links</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 text-white">
+            <Link to="/privacy" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Privacy Policy</Link>
+            <Link to="/terms" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Terms & Conditions</Link>
+            <Link to="/refund" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Refund Policy</Link>
+            <Link to="/shipping" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Shipping Policy</Link>
+            <Link to="/contact" className="bg-gray-800 rounded-xl py-4 shadow-md hover:shadow-orange-400/20 hover:scale-105 transition">Contact Us</Link>
           </div>
         </section>
 
