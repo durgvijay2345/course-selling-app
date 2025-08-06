@@ -85,7 +85,7 @@ function Home() {
     }
   };
 
- var settings = {
+  var settings = {
     dots: true,
     infinite: false,
     speed: 500,
@@ -124,7 +124,6 @@ function Home() {
   return (
     <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
-
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur bg-black/70 shadow-lg rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
@@ -239,9 +238,8 @@ function Home() {
         </section>
 
         {/* Slider Section */}
-        </section>
         <section className="p-10">
-          <Slider className="" {...settings}>
+          <Slider {...settings}>
             {courses.map((course) => (
               <div key={course._id} className="p-4">
                 <div className="relative flex-shrink-0 w-92 transition-transform duration-300 transform hover:scale-105">
@@ -281,29 +279,21 @@ function Home() {
           </div>
         </section>
 
-      <section className="mt-20 space-y-20">
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/contact-us")}>
-    <h2 className="text-2xl font-bold text-orange-500 mb-4">Contact Us</h2>
-    <p className="text-gray-300">For any inquiries, feel free to reach us at contact@coursehaven.com</p>
-  </div>
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/privacy-policy")}>
-    <h2 className="text-2xl font-bold text-orange-500 mb-4">Privacy Policy</h2>
-    <p className="text-gray-300">We value your privacy. Read how we handle your data responsibly and securely.</p>
-  </div>
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/refund-policy")}>
-    <h2 className="text-2xl font-bold text-orange-500 mb-4">Refund Policy</h2>
-    <p className="text-gray-300">Read about our hassle-free refund process and conditions.</p>
-  </div>
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/shipping-policy")}>
-    <h2 className="text-2xl font-bold text-orange-500 mb-4">Shipping Policy</h2>
-    <p className="text-gray-300">Learn about delivery timelines and shipping coverage.</p>
-  </div>
-  <div className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate("/terms-and-conditions")}>
-    <h2 className="text-2xl font-bold text-orange-500 mb-4">Terms & Conditions</h2>
-    <p className="text-gray-300">Please read our terms and conditions carefully before using our services.</p>
-  </div>
-</section>
-
+        {/* Policy Sections */}
+        <section className="mt-20 space-y-20">
+          {[
+            { title: "Contact Us", path: "/contact-us", desc: "For any inquiries, feel free to reach us at contact@coursehaven.com" },
+            { title: "Privacy Policy", path: "/privacy-policy", desc: "We value your privacy. Read how we handle your data responsibly and securely." },
+            { title: "Refund Policy", path: "/refund-policy", desc: "Read about our hassle-free refund process and conditions." },
+            { title: "Shipping Policy", path: "/shipping-policy", desc: "Learn about delivery timelines and shipping coverage." },
+            { title: "Terms & Conditions", path: "/terms-and-conditions", desc: "Please read our terms and conditions carefully before using our services." },
+          ].map((item, index) => (
+            <div key={index} className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate(item.path)}>
+              <h2 className="text-2xl font-bold text-orange-500 mb-4">{item.title}</h2>
+              <p className="text-gray-300">{item.desc}</p>
+            </div>
+          ))}
+        </section>
 
         {/* Footer */}
         <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
@@ -340,4 +330,5 @@ function Home() {
 }
 
 export default Home;
+
 
