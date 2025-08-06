@@ -1,13 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaGithub,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaGithub, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -72,11 +66,7 @@ function Home() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(
-        `${BACKEND_URL}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${BACKEND_URL}/user/logout`, {}, { withCredentials: true });
       toast.success(res.data.message);
       localStorage.removeItem("user");
       setUser(null);
@@ -85,7 +75,7 @@ function Home() {
     }
   };
 
-  var settings = {
+  const settings = {
     dots: true,
     infinite: false,
     speed: 500,
@@ -94,30 +84,9 @@ function Home() {
     initialSlide: 0,
     autoplay: true,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2, infinite: true, dots: true } },
+      { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2, initialSlide: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   };
 
@@ -244,15 +213,9 @@ function Home() {
               <div key={course._id} className="p-4">
                 <div className="relative flex-shrink-0 w-92 transition-transform duration-300 transform hover:scale-105">
                   <div className="bg-gray-900 rounded-lg overflow-hidden">
-                    <img
-                      className="h-32 w-full object-contain"
-                      src={course.image.url}
-                      alt=""
-                    />
+                    <img className="h-32 w-full object-contain" src={course.image.url} alt={course.title} />
                     <div className="p-6 text-center">
-                      <h2 className="text-xl font-bold text-white">
-                        {course.title}
-                      </h2>
+                      <h2 className="text-xl font-bold text-white">{course.title}</h2>
                       <Link to={`/buy/${course._id}`} className="mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300">
                         Enroll Now
                       </Link>
@@ -281,13 +244,11 @@ function Home() {
 
         {/* Policy Sections */}
         <section className="mt-20 space-y-20">
-          {[
-            { title: "Contact Us", path: "/contact-us", desc: "For any inquiries, feel free to reach us at contact@coursehaven.com" },
+          {[{ title: "Contact Us", path: "/contact-us", desc: "For any inquiries, feel free to reach us at contact@coursehaven.com" },
             { title: "Privacy Policy", path: "/privacy-policy", desc: "We value your privacy. Read how we handle your data responsibly and securely." },
             { title: "Refund Policy", path: "/refund-policy", desc: "Read about our hassle-free refund process and conditions." },
             { title: "Shipping Policy", path: "/shipping-policy", desc: "Learn about delivery timelines and shipping coverage." },
-            { title: "Terms & Conditions", path: "/terms-and-conditions", desc: "Please read our terms and conditions carefully before using our services." },
-          ].map((item, index) => (
+            { title: "Terms & Conditions", path: "/terms-and-conditions", desc: "Please read our terms and conditions carefully before using our services." }].map((item, index) => (
             <div key={index} className="bg-gray-900 p-8 rounded-xl shadow-lg cursor-pointer" onClick={() => navigate(item.path)}>
               <h2 className="text-2xl font-bold text-orange-500 mb-4">{item.title}</h2>
               <p className="text-gray-300">{item.desc}</p>
@@ -330,5 +291,6 @@ function Home() {
 }
 
 export default Home;
+
 
 
