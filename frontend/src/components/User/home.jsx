@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -22,6 +22,7 @@ function Home() {
   const [loadingPurchased, setLoadingPurchased] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
+  const profileRef = useRef();
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -54,6 +55,19 @@ function Home() {
       }
     };
     fetchPurchased();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfile(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -97,10 +111,16 @@ function Home() {
             <h1 className="text-2xl text-orange-500 font-bold">CourseHaven</h1>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative">
             {user ? (
               <div className="relative flex items-center gap-4">
-                <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowProfile((prev) => !prev);
+                  }}
+                  className="cursor-pointer hover:scale-105 transition"
+                >
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -124,7 +144,10 @@ function Home() {
                 </button>
 
                 {showProfile && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white text-black rounded-xl shadow-xl p-4 z-50">
+                  <div
+                    ref={profileRef}
+                    className="absolute top-full mt-6 sm:mt-4 sm:right-0 left-1/2 sm:left-auto transform sm:translate-x-0 -translate-x-1/2 w-72 max-w-xs bg-white text-black rounded-xl shadow-xl p-4 pt-3 z-50 mx-4 sm:mx-0"
+                  >
                     <div className="flex flex-col items-center">
                       <img
                         src={user.avatar || ""}
@@ -244,15 +267,13 @@ function Home() {
         <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
           <h2 className="text-3xl font-bold text-orange-400 mb-6">Why Choose CourseHaven?</h2>
           <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              { title: "Expert Instructors", desc: "Top educators with real-world experience." },
+            {[{ title: "Expert Instructors", desc: "Top educators with real-world experience." },
               { title: "Flexible Learning", desc: "Self-paced learning with lifetime access." },
-              { title: "Certification", desc: "Get certified and boost your resume." },
-            ].map((item, index) => (
-              <div key={index} className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-orange-400/20 transition">
-                <h4 className="font-semibold text-white text-lg mb-2">{item.title}</h4>
-                <p className="text-sm text-gray-400">{item.desc}</p>
-              </div>
+              { title: "Certification", desc: "Get certified and boost your resume." }].map((item, index) => (
+                <div key={index} className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-orange-400/20 transition">
+                  <h4 className="font-semibold text-white text-lg mb-2">{item.title}</h4>
+                  <p className="text-sm text-gray-400">{item.desc}</p>
+                </div>
             ))}
           </div>
         </section>
@@ -292,3 +313,4 @@ function Home() {
 }
 
 export default Home;
+
