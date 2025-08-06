@@ -23,9 +23,9 @@ function Courses() {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [courseReviews, setCourseReviews] = useState([]);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const profileRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
+  const profileRef = useRef();
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -42,9 +42,7 @@ function Courses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/course/courses`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`${BACKEND_URL}/course/courses`, { withCredentials: true });
         setCourses(res.data.courses);
       } catch (err) {
         toast.error("Failed to load courses");
@@ -75,9 +73,7 @@ function Courses() {
 
   const handleAboutCourse = async (course) => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/course/${course._id}/reviews`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(`${BACKEND_URL}/course/${course._id}/reviews`, { withCredentials: true });
       setCourseReviews(res.data.reviews || []);
       setSelectedCourse(course);
       setShowDetailModal(true);
@@ -102,6 +98,21 @@ function Courses() {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  const handleOutsideClick = (e) => {
+    if (profileRef.current && !profileRef.current.contains(e.target)) {
+      setShowProfile(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showProfile) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [showProfile]);
+
   const filteredCourses = courses.filter((course) =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -111,27 +122,11 @@ function Courses() {
     return (
       <div className="flex items-center space-x-1">
         {[...Array(5)].map((_, i) =>
-          i < fullStars ? (
-            <FaStar key={i} className="text-yellow-500" />
-          ) : (
-            <FaRegStar key={i} className="text-gray-400" />
-          )
+          i < fullStars ? <FaStar key={i} className="text-yellow-500" /> : <FaRegStar key={i} className="text-gray-400" />
         )}
       </div>
     );
   };
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setShowProfile(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [profileRef]);
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white">
@@ -172,10 +167,7 @@ function Courses() {
           </li>
           <li>
             {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center text-red-500 hover:text-red-600"
-              >
+              <button onClick={handleLogout} className="flex items-center text-red-500 hover:text-red-600">
                 <IoLogOut className="mr-2" /> Logout
               </button>
             ) : (
@@ -188,9 +180,9 @@ function Courses() {
       </aside>
 
       <main className="flex-1 p-6 md:p-10">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 relative">
           <h1 className="text-3xl font-bold text-white">Explore Courses</h1>
-          <div className="relative flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             <div className="flex rounded-full border border-gray-600 overflow-hidden bg-gray-800">
               <input
                 type="text"
@@ -201,112 +193,74 @@ function Courses() {
               />
               <button
                 className="bg-gray-700 px-3 hover:bg-gray-600"
-                onClick={() =>
-                  document.getElementById("course-results")?.scrollIntoView({ behavior: "smooth" })
-                }
+                onClick={() => document.getElementById("course-results")?.scrollIntoView({ behavior: "smooth" })}
               >
                 <FiSearch className="text-gray-300 text-xl" />
               </button>
             </div>
 
-            <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer relative">
-              {user?.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt="User Avatar"
-                  className="h-10 w-10 rounded-full object-cover border-2 border-white"
-                />
-              ) : (
-                <FaUserCircle className="text-3xl text-orange-400" />
-              )}
-            </button>
+            <div className="relative">
+              <button onClick={() => setShowProfile(!showProfile)} className="cursor-pointer">
+                {user?.avatar ? (
+                  <img src={user.avatar} alt="User Avatar" className="h-10 w-10 rounded-full object-cover border-2 border-white" />
+                ) : (
+                  <FaUserCircle className="text-3xl text-orange-400" />
+                )}
+              </button>
 
-            {showProfile && (
-              <div
-                ref={profileRef}
-                className="absolute top-14 right-0 bg-white text-gray-800 p-4 rounded-xl shadow-2xl w-72 z-50 border border-gray-200"
-              >
-                <div className="flex flex-col items-center">
-                  {user?.avatar ? (
-                    <img
-                      src={user.avatar}
-                      alt="Avatar"
-                      className="mb-3 h-20 w-20 rounded-full object-cover border-4 border-orange-500"
-                    />
-                  ) : (
-                    <FaUserCircle className="text-5xl text-orange-400 mb-3" />
-                  )}
-                  <h3 className="text-lg font-semibold">{user.firstName} {user.lastName}</h3>
-                  <p className="text-sm text-gray-600">{user.email}</p>
-                  <Link
-                    to="/user/setting"
-                    className="mt-4 text-sm bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
-                  >
-                    Edit Profile
-                  </Link>
+              {showProfile && (
+                <div
+                  ref={profileRef}
+                  className="absolute top-12 right-0 md:right-0 w-72 md:w-72 p-4 rounded-xl bg-white text-gray-800 shadow-2xl border border-gray-200 z-50"
+                >
+                  <div className="flex flex-col items-center">
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt="Avatar"
+                        className="mb-3 h-20 w-20 rounded-full object-cover border-4 border-orange-500"
+                      />
+                    ) : (
+                      <FaUserCircle className="text-5xl text-orange-400 mb-3" />
+                    )}
+                    <h3 className="text-lg font-semibold">{user.firstName} {user.lastName}</h3>
+                    <p className="text-sm text-gray-600">{user.email}</p>
+                    <Link
+                      to="/user/setting"
+                      className="mt-4 text-sm bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
+                    >
+                      Edit Profile
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </header>
 
-        <section
-          id="course-results"
-          className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 overflow-y-auto h-[75vh]"
-        >
+        <section id="course-results" className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 overflow-y-auto h-[75vh]">
           {loading ? (
             <p className="text-center text-gray-400 col-span-full">Loading...</p>
           ) : filteredCourses.length === 0 ? (
             <p className="text-center text-gray-400 col-span-full">No courses found</p>
           ) : (
             filteredCourses.map((course) => (
-              <div
-                key={course._id}
-                className="flex flex-col h-full bg-gray-900/70 backdrop-blur border border-gray-700 rounded-xl p-5 shadow-lg hover:shadow-2xl transition duration-300"
-              >
-                <img
-                  src={course.image?.url || "https://via.placeholder.com/300"}
-                  alt={course.title}
-                  className="rounded-lg mb-4 w-full h-40 object-cover border border-gray-700"
-                />
+              <div key={course._id} className="flex flex-col h-full bg-gray-900/70 backdrop-blur border border-gray-700 rounded-xl p-5 shadow-lg hover:shadow-2xl transition duration-300">
+                <img src={course.image?.url || "https://via.placeholder.com/300"} alt={course.title} className="rounded-lg mb-4 w-full h-40 object-cover border border-gray-700" />
                 <h2 className="font-bold text-lg text-white mb-1">{course.title}</h2>
                 <div className="mb-2">{renderStars(course.averageRating || 0)}</div>
-                <p className="text-gray-400 text-sm mb-4">
-                  {course.description.length > 100
-                    ? `${course.description.slice(0, 100)}...`
-                    : course.description}
-                </p>
+                <p className="text-gray-400 text-sm mb-4">{course.description.length > 100 ? `${course.description.slice(0, 100)}...` : course.description}</p>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="font-bold text-orange-400 text-xl">
-                    ₹{course.price}
-                    <span className="line-through text-sm text-gray-500 ml-2">₹5999</span>
-                  </span>
+                  <span className="font-bold text-orange-400 text-xl">₹{course.price}<span className="line-through text-sm text-gray-500 ml-2">₹5999</span></span>
                   <span className="text-green-400 text-sm">20% off</span>
                 </div>
-
                 <div className="mt-auto flex flex-col gap-2 items-center">
                   {purchasedCourses.includes(course._id.toString()) ? (
-                    <Link
-                      to="/purchases"
-                      className="bg-black text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-gray-700 transition cursor-pointer"
-                    >
-                      Go to Course
-                    </Link>
+                    <Link to="/purchases" className="bg-black text-white text-sm px-4 py-2 rounded-full shadow-md hover:bg-gray-700 transition cursor-pointer">Go to Course</Link>
                   ) : (
-                    <Link
-                      to={`/buy/${course._id}`}
-                      className="text-sm text-center bg-orange-800 text-white py-1.5 px-6 rounded-md hover:bg-orange-600 transition cursor-pointer"
-                    >
-                      Buy Now
-                    </Link>
+                    <Link to={`/buy/${course._id}`} className="text-sm text-center bg-orange-800 text-white py-1.5 px-6 rounded-md hover:bg-orange-600 transition cursor-pointer">Buy Now</Link>
                   )}
-
-                  <button
-                    onClick={() => handleAboutCourse(course)}
-                    className="text-sm text-center bg-blue-600 text-white py-1.5 px-6 rounded-md hover:bg-blue-700 transition cursor-pointer"
-                  >
-                    About This
-                  </button>
+                  <button onClick={() => handleAboutCourse(course)} className="text-sm text-center bg-blue-600 text-white py-1.5 px-6 rounded-md hover:bg-blue-700 transition cursor-pointer">About This</button>
                 </div>
               </div>
             ))
@@ -315,20 +269,11 @@ function Courses() {
       </main>
 
       {showDetailModal && selectedCourse && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
           <div className="bg-white text-gray-800 max-w-2xl w-full p-6 rounded-xl shadow-2xl relative">
-            <button
-              onClick={() => setShowDetailModal(false)}
-              className="absolute top-2 right-2 text-xl text-gray-500 hover:text-red-500"
-            >
-              ×
-            </button>
+            <button onClick={() => setShowDetailModal(false)} className="absolute top-2 right-2 text-xl text-gray-500 hover:text-red-500">×</button>
             <h2 className="text-2xl font-bold text-orange-500 mb-4">{selectedCourse.title}</h2>
-            <img
-              src={selectedCourse.image?.url || "https://via.placeholder.com/400x200"}
-              alt="Course"
-              className="rounded-lg mb-4 w-full h-52 object-cover border border-gray-300"
-            />
+            <img src={selectedCourse.image?.url || "https://via.placeholder.com/400x200"} alt="Course" className="rounded-lg mb-4 w-full h-52 object-cover border border-gray-300" />
             <p className="mb-4 text-gray-700">{selectedCourse.description}</p>
             <div className="mb-6">
               <span className="text-lg font-semibold text-green-600">₹{selectedCourse.price}</span>
@@ -343,26 +288,16 @@ function Courses() {
                   <div key={index} className="border border-gray-300 rounded-lg p-3 bg-gray-50">
                     <div className="flex items-center space-x-3 mb-1">
                       {review.user?.avatar ? (
-                        <img
-                          src={review.user.avatar}
-                          alt="Avatar"
-                          className="w-9 h-9 rounded-full object-cover"
-                        />
+                        <img src={review.user.avatar} alt="Avatar" className="w-9 h-9 rounded-full object-cover" />
                       ) : (
                         <FaUserCircle className="text-2xl text-gray-600" />
                       )}
                       <div>
-                        <p className="text-sm font-semibold">
-                          {review.user?.firstName} {review.user?.lastName}
-                        </p>
+                        <p className="text-sm font-semibold">{review.user?.firstName} {review.user?.lastName}</p>
                         <div className="flex">
                           {[...Array(5)].map((_, i) => (
                             <span key={i}>
-                              {i < review.rating ? (
-                                <FaStar className="text-yellow-500 text-xs" />
-                              ) : (
-                                <FaRegStar className="text-gray-400 text-xs" />
-                              )}
+                              {i < review.rating ? <FaStar className="text-yellow-500 text-xs" /> : <FaRegStar className="text-gray-400 text-xs" />}
                             </span>
                           ))}
                         </div>
@@ -381,4 +316,5 @@ function Courses() {
 }
 
 export default Courses;
+
 
