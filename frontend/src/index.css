@@ -1,32 +1,15 @@
 @import "tailwindcss";
  /* Fix: Make Enroll Now button clickable inside slider */
-.slick-slide > div {
-  pointer-events: auto;
+.slick-prev:before,
+.slick-next:before {
+  color: white;
+  font-size: 30px;
 }
 
 .slick-slide {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
+  padding: 10px;
 }
 
-.slick-track {
-  display: flex !important;
-}
-
-.slick-slider {
-  position: relative;
-  overflow-x: hidden !important;
-}
-
-/* Show slick arrows */
-.slick-prev,
-.slick-next {
-  z-index: 50;
-  opacity: 1;
-}
-
-/* Prevent horizontal scroll */
 body {
   overflow-x: hidden;
 }
