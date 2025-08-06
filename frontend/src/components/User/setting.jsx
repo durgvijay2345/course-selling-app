@@ -148,7 +148,7 @@ function Setting() {
         <hr className="my-8 border-gray-700" />
 
         <div className="text-center">
-          <h3 className="text-xl font-semibold text-red-500 mb-4">Danger Zone</h3>
+          <h3 className="text-xl font-semibold text-red-500 mb-4">Delete Your Account</h3>
           <button
             onClick={handleDeleteAccount}
             className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-200 shadow-sm hover:shadow-md"
