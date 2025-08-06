@@ -101,7 +101,7 @@ function Home() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-black to-blue-950 text-white min-h-screen font-inter">
+    <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter">
       <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
 
         {/* Header */}
@@ -263,6 +263,45 @@ function Home() {
           </div>
         </section>
 
+        {/* Why Choose Section */}
+        <section className="mt-20 text-center max-w-4xl mx-auto px-4 text-gray-300">
+          <h2 className="text-3xl font-bold text-orange-400 mb-6">Why Choose CourseHaven?</h2>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[{ title: "Expert Instructors", desc: "Top educators with real-world experience." },
+              { title: "Flexible Learning", desc: "Self-paced learning with lifetime access." },
+              { title: "Certification", desc: "Get certified and boost your resume." }].map((item, index) => (
+                <div key={index} className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-orange-400/20 transition">
+                  <h4 className="font-semibold text-white text-lg mb-2">{item.title}</h4>
+                  <p className="text-sm text-gray-400">{item.desc}</p>
+                </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Static Pages Sections */}
+        <section className="mt-20 space-y-20">
+          <div id="contact" className="bg-gray-900 p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">Contact Us</h2>
+            <p className="text-gray-300">For any inquiries, feel free to reach us at contact@coursehaven.com</p>
+          </div>
+          <div id="privacy" className="bg-gray-900 p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">Privacy Policy</h2>
+            <p className="text-gray-300">We value your privacy. Read how we handle your data responsibly and securely.</p>
+          </div>
+          <div id="refund" className="bg-gray-900 p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">Refund Policy</h2>
+            <p className="text-gray-300">Read about our hassle-free refund process and conditions.</p>
+          </div>
+          <div id="shipping" className="bg-gray-900 p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">Shipping Policy</h2>
+            <p className="text-gray-300">Learn about delivery timelines and shipping coverage.</p>
+          </div>
+          <div id="terms" className="bg-gray-900 p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-bold text-orange-500 mb-4">Terms & Conditions</h2>
+            <p className="text-gray-300">Please read our terms and conditions carefully before using our services.</p>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="mt-20 border-t pt-10 text-sm text-gray-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center sm:text-left">
           <div>
@@ -287,14 +326,9 @@ function Home() {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2 text-white">Quick Links</h3>
-            <div className="flex flex-col gap-2">
-              <Link to="/privacy-policy" className="hover:text-orange-500">Privacy Policy</Link>
-              <Link to="/terms-and-conditions" className="hover:text-orange-500">Terms & Conditions</Link>
-              <Link to="/refund-policy" className="hover:text-orange-500">Refund Policy</Link>
-              <Link to="/shipping-policy" className="hover:text-orange-500">Shipping Policy</Link>
-              <Link to="/contact-us" className="hover:text-orange-500">Contact Us</Link>
-            </div>
+            <h3 className="font-semibold mb-2 text-white">© 2025 CourseHaven</h3>
+            <p>All rights reserved.</p>
+            <p className="text-gray-500">Designed by CourseHaven Team</p>
           </div>
         </footer>
       </div>
@@ -303,5 +337,4 @@ function Home() {
 }
 
 export default Home;
-
 
