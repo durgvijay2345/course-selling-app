@@ -281,7 +281,7 @@ function Home() {
         {/* Static Pages Sections */}
         <section className="mt-20 space-y-20">
           <div id="contact" className="bg-gray-900 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-orange-500 mb-4">Contact Us</h2>
+            <h2 className="text-2xl font-bold text-orange-500 mb-4 cursor-pointer" onclick={()=>navigate("/privacy-policy")>Contact Us</h2>
             <p className="text-gray-300">For any inquiries, feel free to reach us at contact@coursehaven.com</p>
           </div>
           <div id="privacy" className="bg-gray-900 p-8 rounded-xl shadow-lg">
