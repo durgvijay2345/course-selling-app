@@ -85,20 +85,19 @@ function Home() {
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    autoplay: true,
-    swipe: true,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-    ],
-  };
+ const settings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 4,
+  arrows: true, 
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+    { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+    { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+  ],
+};
 
   return (
     <div className="bg-gradient-to-r from-black to-blue-950 text-white font-inter overflow-x-hidden overflow-y-hidden">
@@ -218,7 +217,7 @@ function Home() {
 
        <section className="mt-14">
           <h2 className="text-2xl font-semibold text-center mb-4">Popular Courses</h2>
-          <div className="relative overflow-hidden">
+       <div className="relative overflow-visible"> 
             <Slider {...settings}>
               {Array.isArray(courses) &&
                 courses.map((course) => {
